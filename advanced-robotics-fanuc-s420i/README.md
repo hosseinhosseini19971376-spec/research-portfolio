@@ -2,13 +2,15 @@
 
 A MATLAB-based study of the **FANUC S-420i six-degree-of-freedom industrial robot**, prepared from the original 16-page Persian course report *پروژه درس رباتیک پیشرفته* (Amirkabir University of Technology, Ordibehesht 1401).
 
-The repository keeps two complementary layers: the organized MATLAB implementation in `matlab/`, and the **nine original student-submitted MATLAB scripts** preserved in `matlab/original/`.
+The repository keeps two complementary layers: the organized MATLAB implementation already in `matlab/`, and the **original student-submitted MATLAB scripts** preserved in `matlab/original/`. The report's visual material is represented below and indexed in `figures/FIGURE_INDEX.md`.
 
 ## Report figures
 
-The source report contains eight embedded figures: the FANUC specification sheet, robot coordinate-frame drawing, DH parameter table, MATLAB/toolbox screenshots, workspace point cloud, and robot visualizations.
+The overview below is assembled from the eight images embedded in the original report: the robot specification sheet, coordinate-frame drawing, DH parameter table, MATLAB/toolbox screenshots, and workspace/robot visualizations.
 
-**Image quality note:** the earlier compressed contact-sheet preview has been removed because shrinking all eight source figures into one thumbnail made technical labels difficult to read. The figure descriptions are listed in [FIGURE_INDEX.md](figures/FIGURE_INDEX.md). For visual inspection, use the individual original-resolution figures in the companion project archive rather than the compressed preview.
+![Overview of figures extracted from the original FANUC S-420i report](figures/report-figures-overview.jpg)
+
+See [the figure index](figures/FIGURE_INDEX.md) for the description of each source image. The full-resolution originals are preserved in the companion project archive.
 
 ## Project scope
 
@@ -28,6 +30,8 @@ The report and scripts cover:
 
 ### Organized implementation
 
+The following files are organized for readability and staged use:
+
 | File | Purpose |
 | --- | --- |
 | `matlab/fanuc_s420i_dh.m` | DH parameters transcribed from the report |
@@ -42,7 +46,7 @@ The report and scripts cover:
 
 ### Original submitted files
 
-These nine files are preserved as supplied, without silently repairing or rewriting their source:
+These nine files were added as supplied, without silently repairing or rewriting their source:
 
 | Original file | Main subject |
 | --- | --- |
@@ -70,7 +74,7 @@ Add the relevant MATLAB folders to the MATLAB path. The organized scripts are in
 - The original scripts have been preserved, not represented as fully validated or production-ready code.
 - The original `forward.m` identifies its graphical example as SCARA and calls external `ncgr_*` / `cgr_*` functions that are not included in the submitted files.
 - The original workspace script references `Tee`, which is not defined in that file as supplied.
-- The initial joint vector in `path_sim_6DOF.m` is `[-pi/4,...,-pi/4]`, while the listed joint limits begin at zero; this mismatch is documented in [EXTRACTION_NOTES.md](EXTRACTION_NOTES.md).
+- The initial joint vector in `path_sim_6DOF.m` is `[-pi/4,ldots,-pi/4]`, while the listed joint limits begin at zero; this mismatch is documented in [EXTRACTION_NOTES.md](EXTRACTION_NOTES.md).
 - The report does not provide complete numerical link masses, centres of mass and inertia tensors. Therefore the dynamics scripts remain symbolic and require those physical parameters for numerical validation.
 - MATLAB execution and numerical validation have not been performed in this environment.
 
@@ -82,6 +86,7 @@ advanced-robotics-fanuc-s420i/
 ├── EXTRACTION_NOTES.md
 ├── extraction_inventory.json
 ├── figures/
+│   ├── report-figures-overview.jpg
 │   └── FIGURE_INDEX.md
 ├── matlab/
 │   ├── ... organized MATLAB scripts

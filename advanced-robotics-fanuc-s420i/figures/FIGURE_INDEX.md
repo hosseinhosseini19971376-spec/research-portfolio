@@ -1,14 +1,16 @@
-# Figures from the original FANUC S-420i report
+# Original figures — FANUC S-420i report
 
-The report contains eight embedded images. The repository README includes a compact overview assembled from these source images as `report-figures-overview.jpg`.
+The source report contains eight embedded figures. The former combined thumbnail preview was removed because it reduced the readability of labels and technical details. The dimensions below are the native pixel dimensions extracted from the report; the standalone archive supplied with this project preserves these files without resizing.
 
-1. **University emblem** — report cover/header.
-2. **FANUC S-420i specifications** — robot specification sheet and model information.
-3. **Robot coordinate axes** — joint and coordinate-frame illustration.
-4. **DH parameter table** — geometric parameters used in the kinematic model.
-5. **Peter Corke MATLAB model** — MATLAB/toolbox implementation screenshot.
-6. **Workspace point cloud** — workspace sampling visualization.
-7. **Graphical robot environment** — simplified robot scene.
-8. **Peter Corke workspace view** — robot pose and workspace/trajectory visualization.
+| # | Original file | Native resolution | Description |
+| --- | --- | ---: | --- |
+| 1 | `01_aut_logo.jpeg` | 208 × 218 | Amirkabir University emblem |
+| 2 | `02_fanuc_s420i_specifications.png` | 1102 × 849 | FANUC S-420i specification sheet |
+| 3 | `03_robot_coordinate_axes.png` | 882 × 722 | Robot coordinate axes and joint frames |
+| 4 | `04_dh_parameter_table.png` | 595 × 303 | Denavit–Hartenberg parameter table |
+| 5 | `05_matlab_peter_corke_environment.png` | 1920 × 1080 | Peter Corke MATLAB robot model |
+| 6 | `06_workspace_point_cloud.png` | 700 × 525 | Workspace point-cloud visualization |
+| 7 | `07_graphical_robot_environment.png` | 1920 × 1080 | Graphical robot environment |
+| 8 | `08_peter_corke_workspace_view.png` | 700 × 525 | Peter Corke robot/workspace visualization |
 
-The full-resolution source images are retained in the companion project archive; the contact sheet in this repository is a compact README preview.
+**Important:** the 208 × 218 university emblem and 595 × 303 DH table are low-resolution in the original report itself. They have not been artificially enlarged and presented as high-resolution originals.
