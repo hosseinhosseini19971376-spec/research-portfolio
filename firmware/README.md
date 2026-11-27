@@ -45,6 +45,8 @@ The sketch has **not** been compiled against a confirmed set of library versions
 4. Confirm that the mechanism cannot strike its mechanical limits.
 5. Use an appropriate external servo supply with a common ground to the controller, as required by the actual hardware design.
 
+The touch-contact heuristic treats a reading as valid when X is nonzero and Y is outside the raw-count exclusion band 740–751; it does not use a pressure threshold. The PID objects use DIRECT action on both axes. Verify the touchscreen coordinate orientation and each servo's direction with the mechanism unloaded before placing the ball.
+
 The initial regulation loop accumulates in-band detections without resetting the counter on every out-of-band sample. The monitoring loop also does not independently validate touchscreen contact before using a reading. These behaviors are preserved from the thesis-based transcription and should be reviewed before using the sketch as a production controller.
 
 The sketch explicitly configures D9 as an output for the status signal. The source material writes to this pin but does not show the corresponding pin-mode configuration.
