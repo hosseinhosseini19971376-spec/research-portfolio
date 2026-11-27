@@ -20,11 +20,7 @@ check_model_prerequisites;
 To extract the MATLAB Function block scripts directly from the original model archives, use Python 3:
 
 ```bash
-python projects/resilient-consensus-dos/scripts/extract_slx_functions.py \\
-  projects/resilient-consensus-dos/models/withoutDOS.slx \\
-  projects/resilient-consensus-dos/models/withDOS.slx \\
-  projects/resilient-consensus-dos/models/RESILIENT.slx \\
-  --output extracted_functions
+python projects/resilient-consensus-dos/scripts/extract_slx_functions.py projects/resilient-consensus-dos/models/withoutDOS.slx projects/resilient-consensus-dos/models/withDOS.slx projects/resilient-consensus-dos/models/RESILIENT.slx --output extracted_functions
 ```
 
 The extraction script reads the Stateflow XML inside each SLX archive and does not modify the source models.
