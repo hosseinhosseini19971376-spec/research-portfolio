@@ -91,7 +91,7 @@ The models have been inspected at the SLX package/XML level, but they have **not
 
 ## Important interpretation limits
 
-The reference paper's abstract describes DoS constraints on attack frequency and duration, a distributed observer-based controller, and a scenario in which both controller and observer communication networks can be jammed ([paper record](https://www.researchgate.net/publication/349010573_Resilient_Consensus_of_Multiagent_Systems_Against_Denial-of-Service_Attacks)). The supplied `withDOS` and `RESILIENT` models make the observer-side Laplacian DoS-dependent while the active plant/controller function retains a fixed Laplacian. Therefore, the supplied files do **not** establish a complete simulation of the simultaneous controller-and-observer attack scenario.
+The reference paper's abstract describes DoS constraints on attack frequency and duration, a distributed observer-based controller, and a scenario in which both controller and observer communication networks can be jammed ([paper DOI](https://doi.org/10.1109/TSMC.2021.3051730)). The supplied `withDOS` and `RESILIENT` models make the observer-side Laplacian DoS-dependent while the active plant/controller function retains a fixed Laplacian. Therefore, the supplied files do **not** establish a complete simulation of the simultaneous controller-and-observer attack scenario.
 
 In `RESILIENT.slx`, matrices \(R\), \(L_O\), and \(L_C\) are defined in the observer function, but the active observer derivative does not apply a state-reset operation using \(R\). It is therefore described as an extended observer-model variant, not as a verified implementation of the paper's full reset-based state-reconstruction mechanism.
 
