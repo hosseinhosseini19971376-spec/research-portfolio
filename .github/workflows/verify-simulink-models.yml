@@ -4,7 +4,6 @@ on:
   pull_request:
     paths:
       - "projects/resilient-consensus-dos/models/*.slx"
-      - ".github/workflows/verify-simulink-models.yml"
   push:
     branches:
       - main
