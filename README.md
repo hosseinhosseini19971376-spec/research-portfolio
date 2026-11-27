@@ -12,7 +12,7 @@ An undergraduate end-to-end engineering project involving mechanical constructio
 
 **Technologies:** Arduino Mega 2560 · C/C++ · MATLAB R2018b · Simulink · PID Control
 
-[Read the project case study](ball-plate.md)
+[Read the project case study](ball-plate.md) · [View Arduino PID firmware](firmware/ball_plate_pid_controller.ino)
 
 ## Research interests
 
