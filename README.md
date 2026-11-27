@@ -2,9 +2,9 @@
 
 ## Research Portfolio · Robotics, Control Systems & Rehabilitation Engineering
 
-This repository presents selected academic and engineering work in control theory, robotics, rehabilitation systems, embedded implementation, and data-driven modeling.
+This portfolio documents academic and engineering work in control theory, robotics, rehabilitation systems, embedded implementation, and data-driven modeling. It currently features a detailed end-to-end ball-and-plate balancing robot project.
 
-Projects are documented with their engineering objectives, system architecture, modeling approach, implementation details, experimental workflow, and reproducibility limitations. Only files that are available and reviewed are presented as repository artifacts.
+The featured project is documented with its engineering objective, system architecture, modeling approach, implementation details, experimental workflow, and reproducibility limitations. Only files that are available and reviewed are presented as repository artifacts.
 
 ## Featured project
 
