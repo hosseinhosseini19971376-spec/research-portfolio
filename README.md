@@ -2,34 +2,37 @@
 
 ## Research Portfolio · Robotics, Control Systems & Rehabilitation Engineering
 
-This portfolio documents academic and engineering work in control theory, robotics, rehabilitation systems, embedded implementation, and data-driven modeling. It currently features a detailed end-to-end ball-and-plate balancing robot project.
+This portfolio presents selected academic and engineering work in robotics, control theory, networked multi-agent systems, embedded implementation, and data-driven modeling.
 
-The featured project is documented with its engineering objective, system architecture, modeling approach, implementation details, experimental workflow, and reproducibility limitations. Only files that are available and reviewed are presented as repository artifacts.
+Projects are documented with their objectives, mathematical foundations, system architecture, implementation details, and reproducibility limits. Only results and artifacts supported by the available source files are claimed.
 
-## Featured project
+## Selected projects
 
-### Design and Implementation of a Two-Degree-of-Freedom Ball-and-Plate Balancing Robot
+### 1. Design and Implementation of a Two-Degree-of-Freedom Ball-and-Plate Balancing Robot
 
 ![Physical ball-and-plate prototype](assets/prototype.jpg)
 
 An undergraduate end-to-end engineering project involving mechanical construction, Euler–Lagrange modeling, resistive-touch position feedback, two-axis Arduino PID control, and MATLAB/Simulink-based modeling and parameter-estimation workflows.
 
-**Technologies:** Arduino Mega 2560 · C/C++ · MATLAB R2018b · Simulink · PID Control
+**Technologies:** Arduino Mega 2560 · C/C++ · MATLAB · Simulink · PID Control
 
 - [Read the project case study](ball-plate.md)
 - [View the Arduino PID firmware](firmware/ball_plate_pid_controller.ino)
 - [Read firmware setup and verification notes](firmware/README.md)
 
-## Repository structure
+### 2. Resilient Consensus of Multi-Agent Systems Under DoS Attacks
 
-- **README.md** — portfolio landing page.
-- **ball-plate.md** — project case study, technical details, and reproducibility status.
-- **firmware/ball_plate_pid_controller.ino** — thesis-based Arduino firmware transcription.
-- **firmware/README.md** — firmware dependencies, pin mapping, and verification notes.
-- **assets/prototype.jpg** — photograph of the physical prototype.
-- **assets/mechanical-schematic.jpg** — single-axis mechanical principle diagram.
+A MATLAB/Simulink simulation study based on an IEEE paper on observer-based distributed consensus under denial-of-service communication attacks. The supplied source package contains three model variants: a nominal baseline, a DoS-dependent observer-topology model, and an extended observer-model variant.
 
-**Data availability:** the raw measurement spreadsheets and supplied Simulink example files reviewed during project preparation are not currently included in this repository. The case study describes their scope and the limitations of the available data without presenting them as downloadable files.
+![Nominal six-agent communication topology](projects/resilient-consensus-dos/assets/nominal_network_topology.svg)
+
+**Technologies:** MATLAB · Simulink · State-Space Modeling · Distributed Observers · Graph Laplacians · Kronecker Products · DoS-Resilient Control
+
+- [Read the project case study and model limitations](projects/resilient-consensus-dos/README.md)
+- [Review the Simulink model guide](projects/resilient-consensus-dos/docs/MODEL_GUIDE.md)
+- [Review implementation equations and caveats](projects/resilient-consensus-dos/docs/IMPLEMENTATION_NOTES.md)
+
+**Reproducibility note:** the three original SLX binaries and the original `tuvar` attack-signal workspace data are not currently included in this GitHub repository. Their hashes and model requirements are documented. The available models have been inspected at package/XML level, but no MATLAB execution results or complete reproduction claims are presented.
 
 ## Research interests
 
@@ -37,6 +40,7 @@ An undergraduate end-to-end engineering project involving mechanical constructio
 - Feedback, robust, adaptive, and model predictive control
 - Reinforcement learning for robotic systems
 - Multi-agent and networked control systems
+- Resilient and secure control under cyberattacks
 - Real-time embedded control and hardware-in-the-loop experimentation
 - System identification and data-driven modeling
 
