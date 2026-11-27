@@ -9,3 +9,4 @@ M.Sc. in Electrical Engineering (Control), Amirkabir University of Technology
 | [Resilient MPC under DoS Attacks](resilient-mpc-dos/) | LQR, state-space MPC, Laguerre MPC, and observer-based resilience for UPS, microgrid, and manipulator CPS case studies. |
 | [Deaerator Digital Twin & HIL](03-deaerator-hil/) | Python deaerator simulation and SCADA integrated with an STM32F103C8Tx hardware-in-the-loop controller. |
 | [Optimal Control Exercises](optimal-control-exercises/) | Dynamic programming, HJB/Riccati, Hamiltonian LQR/LQT, and Pontryagin bounded-input control for delayed teleoperation. |
+| [Advanced Robotics — FANUC S-420i](advanced-robotics-fanuc-s420i/) | Six-DOF industrial robot study: DH modeling, forward/inverse kinematics, Jacobians, singularities, workspace, and symbolic dynamics in MATLAB. |
