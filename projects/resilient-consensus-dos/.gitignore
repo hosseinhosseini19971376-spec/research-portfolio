@@ -1,0 +1,19 @@
+# MATLAB / Simulink generated files
+*.asv
+*.autosave
+slprj/
+sccprj/
+*_ert_rtw/
+*_grt_rtw/
+*.slxc
+*.mex*
+*.mat~
+*.mdl~
+*.log
+*.bak
+*.tmp
+
+# MATLAB editor and operating-system files
+.matlab/
+.DS_Store
+Thumbs.db
