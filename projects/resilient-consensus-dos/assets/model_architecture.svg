@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img" aria-labelledby="title desc">
+<title id="title">Implementation-level model architecture</title>
+<desc id="desc">The six-agent plant provides outputs to a distributed observer. The observer estimates are used by the distributed feedback controller. In the supplied DoS-enabled models, the DoS input modifies the observer-side communication Laplacian, while the active plant and controller derivative retains the nominal fixed Laplacian.</desc>
+<defs>
+  <marker id="blueArrow" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="#53718a"/></marker>
+  <marker id="redArrow" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="#c94c4c"/></marker>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#102a43" flood-opacity=".10"/></filter>
+</defs>
+<rect width="1100" height="620" rx="28" fill="#f7f9fc"/>
+<text x="60" y="65" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="700" fill="#102a43">Simulation architecture</text>
+<text x="60" y="100" font-family="Inter,Arial,sans-serif" font-size="16" fill="#5b7083">Implementation-level view of the supplied MATLAB / Simulink models</text>
+<g filter="url(#shadow)">
+  <rect x="55" y="205" width="235" height="150" rx="18" fill="#e8f1f8" stroke="#247ba0" stroke-width="2.5"/>
+  <rect x="430" y="205" width="245" height="150" rx="18" fill="#e9f4f1" stroke="#2f8f75" stroke-width="2.5"/>
+  <rect x="815" y="205" width="230" height="150" rx="18" fill="#fff2e5" stroke="#d98a3a" stroke-width="2.5"/>
+  <rect x="450" y="30" width="205" height="85" rx="16" fill="#fff0f0" stroke="#c94c4c" stroke-width="2.5"/>
+</g>
+<g font-family="Inter,Arial,sans-serif" text-anchor="middle">
+  <text x="172" y="250" font-size="22" font-weight="700" fill="#174e69">Six-agent plant</text>
+  <text x="172" y="282" font-size="16" fill="#425b70">Leader + five followers</text>
+  <text x="172" y="315" font-size="15" fill="#425b70">State vector X</text>
+  <text x="552" y="250" font-size="22" font-weight="700" fill="#216b58">Distributed observer</text>
+  <text x="552" y="282" font-size="16" fill="#425b70">Reconstructs agent states</text>
+  <text x="552" y="315" font-size="15" fill="#425b70">Estimate X̂ · observer Laplacian</text>
+  <text x="930" y="250" font-size="22" font-weight="700" fill="#995a1e">Feedback controller</text>
+  <text x="930" y="282" font-size="16" fill="#425b70">Uses estimated states</text>
+  <text x="930" y="315" font-size="15" fill="#425b70">Nominal fixed Laplacian L</text>
+  <text x="552" y="64" font-size="20" font-weight="700" fill="#a63737">DoS input</text>
+  <text x="552" y="91" font-size="15" fill="#7e4545">tuvar (workspace signal)</text>
+</g>
+<g fill="none" stroke="#53718a" stroke-width="4" marker-end="url(#blueArrow)" stroke-linecap="round">
+  <path d="M290 280 H420"/>
+  <path d="M675 280 H805"/>
+  <path d="M930 355 V440 H172 V365"/>
+</g>
+<g font-family="Inter,Arial,sans-serif" font-size="15" fill="#425b70" font-weight="600">
+  <text x="355" y="258" text-anchor="middle">Outputs y = CX</text>
+  <text x="740" y="258" text-anchor="middle">Estimated states X̂</text>
+  <text x="545" y="468" text-anchor="middle">Control input u returns to the agent plant</text>
+</g>
+<path d="M552 115 V190" fill="none" stroke="#c94c4c" stroke-width="3.5" stroke-dasharray="9 7" marker-end="url(#redArrow)"/>
+<text x="690" y="151" font-family="Inter,Arial,sans-serif" font-size="14" fill="#a63737">modifies observer-side L(DOS)</text>
+<rect x="90" y="510" width="920" height="72" rx="14" fill="#fff8ec" stroke="#e4bd7d" stroke-width="1.5"/>
+<text x="550" y="539" font-family="Inter,Arial,sans-serif" text-anchor="middle" font-size="16" font-weight="700" fill="#81531f">Important implementation boundary</text>
+<text x="550" y="563" font-family="Inter,Arial,sans-serif" text-anchor="middle" font-size="14" fill="#6c5a43">In the supplied withDOS and RESILIENT files, DoS changes the observer-side topology;</text>
+<text x="550" y="581" font-family="Inter,Arial,sans-serif" text-anchor="middle" font-size="14" fill="#6c5a43">the active plant/controller derivative retains the nominal fixed Laplacian.</text>
+</svg>
