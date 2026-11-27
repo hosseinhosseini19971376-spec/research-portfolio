@@ -13,10 +13,10 @@
 #include "TouchScreen.h"
 #include <Servo.h>
 
-#define YP A0 // 0
-#define XM A1 // 1
-#define YM 3  // 3
-#define XP 4  // 4
+#define YP A0
+#define XM A1
+#define YM 3
+#define XP 4
 
 TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
@@ -72,7 +72,6 @@ void setup()
     Setpoint = 175;
     Setpoint1 = 144;
 
-    // Set the plate to its nominal level position.
     servo1.attach(5);
     servo2.attach(6);
 
@@ -96,11 +95,11 @@ void setup()
 
 void loop()
 {
-    while (Stable < 125) // Regulation loop
+    while (Stable < 125)
     {
-        TSPoint p = ts.getPoint(); // Measure pressure on the plate.
+        TSPoint p = ts.getPoint();
 
-        if ((p.x != 0 && (p.y < 740 || p.y > 751))) // Ball is on plate
+        if ((p.x != 0 && (p.y < 740 || p.y > 751)))
         {
             noTouchCount = 0;
 
@@ -128,7 +127,7 @@ void loop()
             servo1.write(Output);
             servo2.write(Output1);
         }
-        else // Ball is not detected on the plate
+        else
         {
             noTouchCount++;
 
@@ -163,7 +162,7 @@ void loop()
     servo1.detach();
     servo2.detach();
 
-    while (Stable == 125) // If the ball is stable, keep monitoring its position.
+    while (Stable == 125)
     {
         TSPoint p = ts.getPoint();
 
@@ -176,7 +175,7 @@ void loop()
             servo1.attach(5);
             servo2.attach(6);
 
-            Stable = 0; // Change STABLE state.
+            Stable = 0;
         }
     }
 }
