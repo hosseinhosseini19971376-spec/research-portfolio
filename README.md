@@ -22,7 +22,9 @@ An undergraduate end-to-end engineering project involving mechanical constructio
 
 ### 2. Resilient Consensus of Multi-Agent Systems Under DoS Attacks
 
-A MATLAB/Simulink simulation study based on an IEEE paper on observer-based distributed consensus under denial-of-service communication attacks. The project package contains three model variants (nominal, DoS-dependent observer topology, and an extended observer-model variant), together with technical and reproducibility documentation.
+A MATLAB/Simulink simulation study based on an IEEE paper on observer-based distributed consensus under denial-of-service communication attacks. The supplied source package contains three model variants: a nominal baseline, a DoS-dependent observer-topology model, and an extended observer-model variant.
+
+![Nominal six-agent communication topology](projects/resilient-consensus-dos/assets/nominal_network_topology.svg)
 
 **Technologies:** MATLAB · Simulink · State-Space Modeling · Distributed Observers · Graph Laplacians · Kronecker Products · DoS-Resilient Control
 
@@ -30,7 +32,7 @@ A MATLAB/Simulink simulation study based on an IEEE paper on observer-based dist
 - [Review the Simulink model guide](projects/resilient-consensus-dos/docs/MODEL_GUIDE.md)
 - [Review implementation equations and caveats](projects/resilient-consensus-dos/docs/IMPLEMENTATION_NOTES.md)
 
-**Artifact note:** the three original SLX binaries are identified and integrity-hashed in the project folder but are not yet committed to GitHub. The DoS-enabled models also require the original tuvar attack-signal workspace data, which was not included in the supplied archive. No unverified simulation plots or performance results are claimed.
+**Reproducibility note:** the three original SLX binaries and the original `tuvar` attack-signal workspace data are not currently included in this GitHub repository. Their hashes and model requirements are documented. The available models have been inspected at package/XML level, but no MATLAB execution results or complete reproduction claims are presented.
 
 ## Research interests
 
