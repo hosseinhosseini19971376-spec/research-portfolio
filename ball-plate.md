@@ -22,7 +22,13 @@ The work combines electromechanical prototyping, Euler–Lagrange modeling, sens
 
 *Side-view mechanical principle diagram showing the plate, ball, pivot, and servo linkage. It illustrates one controlled axis; the physical prototype has two-axis actuation.*
 
-## System architecture and hardware
+## 1. Engineering objective
+
+The ball-and-plate plant is nonlinear and open-loop unstable. The two servo motors tilt the platform along perpendicular axes; the touchscreen measures the ball position and provides feedback to the controller.
+
+The control objective is to keep the ball near a specified coordinate on the plate, or move it toward a desired position, while preventing it from leaving the sensing surface.
+
+## 2. System architecture and hardware
 
 | Subsystem | Implementation documented in the thesis |
 |---|---|
@@ -48,13 +54,7 @@ The physical assembly described in the thesis includes:
 
 The thesis describes the MG946 servo supply as 6 V, using two battery holders and eight 1.5 V cells. It reports a servo operating range of 4.8–6.6 V, 180-degree travel, and maximum torque figures of 13 kg·cm at 6.6 V and 10.5 kg·cm at 4.8 V. These are specifications cited in the thesis, not torque measurements made during this experiment.
 
-## 1. Engineering objective
-
-The ball-and-plate plant is nonlinear and open-loop unstable. The two servo motors tilt the platform along perpendicular axes; the touchscreen measures the ball position and provides feedback to the controller.
-
-The control objective is to keep the ball near a specified coordinate on the plate, or move it toward a desired position, while preventing it from leaving the sensing surface.
-
-## 2. Mathematical modeling
+## 3. Mathematical modeling
 
 The thesis derives the equations of motion using the Euler–Lagrange method. The model considers the kinetic and potential energy of the ball and plate and relates the ball coordinates to the two plate inclination angles.
 
@@ -69,7 +69,7 @@ The nonlinear equations are then linearized around the horizontal operating poin
 
 **Modeling limitation:** the linearized axis model is a local approximation around the nominal operating point. It should not be interpreted as a globally valid representation of the full nonlinear, coupled plant.
 
-## 3. Position sensing and coordinate handling
+## 4. Position sensing and coordinate handling
 
 A four-wire resistive touchscreen is used as the position-feedback sensor. The Arduino reads the analog values associated with the X and Y directions. The firmware converts raw touchscreen readings into nominal millimetre coordinates using the conversion factors recorded in the thesis firmware:
 
@@ -78,7 +78,7 @@ A four-wire resistive touchscreen is used as the position-feedback sensor. The A
 
 The firmware defines a home/centre reading for the touchscreen and uses the measured coordinates as the two PID process variables.
 
-## 4. Embedded two-axis PID controller
+## 5. Embedded two-axis PID controller
 
 The Arduino Mega 2560 executes two PID controllers, one for each axis. The thesis-based firmware includes:
 
@@ -127,7 +127,7 @@ The sketch is a cleaned transcription based on the thesis implementation. It ret
 - The monitoring stage evaluates the touchscreen readings against the target band but does not perform a separate contact-validity check before using those readings.
 - The firmware has not been independently compiled against the exact library versions or tested on the original physical prototype. Confirm the board wiring, touchscreen orientation, servo directions, and safe mechanical travel before operating it.
 
-## 5. MATLAB/Simulink integration and model-based design
+## 6. MATLAB/Simulink integration and model-based design
 
 The thesis documents a model-based workflow using MATLAB R2018b and Simulink:
 
@@ -152,7 +152,7 @@ Three Simulink files were reviewed at the SLX package/XML level during preparati
 
 These are supporting examples, not evidence of a complete Simulink implementation of the two-axis ball-and-plate dynamics. Their settings also differ from the Arduino firmware: the example servo blocks use pin 9, while the firmware assigns servo signals to pins 5 and 6; the serial helper model uses 9600 baud, while the firmware starts serial communication at 115200 baud. They should not be assumed to be directly interchangeable without configuration changes.
 
-## 6. Experimental data and interpretation
+## 7. Experimental data and interpretation
 
 The following spreadsheets were supplied and reviewed during project preparation, but are **not included in the current GitHub repository**:
 
@@ -169,13 +169,13 @@ The 21 servo command samples in each servo spreadsheet have no corresponding tim
 
 **Data interpretation:** the recorded X–Y trajectory is a measured sensor trace, not by itself proof of closed-loop setpoint regulation. The reviewed files do not include a synchronized servo-input time series for the 3,486 position samples, a separate disturbance marker, or a validated set of tracking-error performance metrics. Accordingly, no RMSE, settling time, overshoot, or disturbance-rejection score is claimed.
 
-## 7. Reported outcome
+## 8. Reported outcome
 
 The thesis reports construction and implementation of the two-degree-of-freedom ball-and-plate setup, satisfactory qualitative operation of the Arduino-based PID controller, and use of recorded experimental data in a MATLAB/Simulink parameter-estimation workflow.
 
 The material reviewed for this portfolio does not provide validated numerical values for tracking RMSE, settling time, overshoot, or disturbance-rejection indices. These metrics are therefore not invented or inferred.
 
-## 8. Reproducibility and artifact status
+## 9. Reproducibility and artifact status
 
 | Artifact | Current repository status |
 |---|---|
@@ -190,7 +190,7 @@ The material reviewed for this portfolio does not provide validated numerical va
 
 To make the experiment independently reproducible, the repository would still need the releasable raw measurement files, the original editable Simulink models (if available), exact library versions, and a hardware-validation record. These should be added only after the files are checked and any private or sensitive information is removed.
 
-## 9. Engineering capabilities demonstrated
+## 10. Engineering capabilities demonstrated
 
 - End-to-end electromechanical system development.
 - Mechanical prototyping and actuator-linkage integration.
