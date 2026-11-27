@@ -11,6 +11,14 @@
 
 A physical two-axis ball-and-plate system was designed, assembled, modeled, and controlled. The objective was to regulate a ball's position on a tilting platform using closed-loop X–Y feedback. The project combines nonlinear dynamics, mechanical design, resistive-touch sensing, servo actuation, embedded PID control, and MATLAB/Simulink-based model-based design and parameter estimation.
 
+## Project photos
+
+![Physical ball-and-plate prototype](assets/prototype.jpg)
+
+![Electronics and touchscreen test setup](assets/testbench.jpg)
+
+![Mechanical arrangement of the ball-and-plate system](assets/mechanical-schematic.jpg)
+
 | Area | Implementation documented in the thesis |
 |---|---|
 | Embedded controller | Arduino Mega 2560 |
