@@ -8,6 +8,27 @@
 
 The exact MATLAB release used to create the original files has not been confirmed.
 
+## Preflight checks and source inspection
+
+After the three original SLX files have been added to `models/`, run the non-destructive prerequisite check from the repository root:
+
+```matlab
+addpath('projects/resilient-consensus-dos/scripts');
+check_model_prerequisites;
+```
+
+To extract the MATLAB Function block scripts directly from the original model archives, use Python 3:
+
+```bash
+python projects/resilient-consensus-dos/scripts/extract_slx_functions.py \\
+  projects/resilient-consensus-dos/models/withoutDOS.slx \\
+  projects/resilient-consensus-dos/models/withDOS.slx \\
+  projects/resilient-consensus-dos/models/RESILIENT.slx \\
+  --output extracted_functions
+```
+
+The extraction script reads the Stateflow XML inside each SLX archive and does not modify the source models.
+
 ## Nominal model
 
 1. Open MATLAB.
