@@ -2,7 +2,7 @@
 
 A MATLAB/Simulink research project on resilient predictive control for cyber-physical systems (CPSs) exposed to Denial-of-Service (DoS) communication interruptions. The report compares LQR, state-space MPC, and Laguerre MPC, and describes an observer-based output predictor to compensate for unavailable measurement packets.
 
-> **GitHub mirror status:** This folder contains the project overview, report text extraction, and asset inventory. The original binary Simulink models and simulation-result PDFs are preserved in the complete project package prepared with this update, but could not be committed as binary files through the current GitHub file workflow. They are not represented here as if they had been uploaded.
+> **Source archive:** The original simulation bundle is committed at [source/original-simulation-bundle.zip](source/original-simulation-bundle.zip). It contains the supplied Simulink models, MATLAB scripts, and simulation-result PDFs. The eight-page report's extracted text is included at [report/report-extracted.txt](report/report-extracted.txt).
 
 ## Research objectives
 
@@ -31,13 +31,12 @@ A leader–follower multi-agent case study considers six single-link manipulator
 
 ## Original package inventory
 
-The uploaded simulation archive contains:
+The original simulation archive contains:
 - 11 Simulink models (.slx): 5 UPS, 3 microgrid, and 3 manipulator models.
 - 3 MATLAB scripts (.m): one associated with each case-study group.
 - 5 simulation-result PDFs: two UPS, one microgrid, and two manipulator plots.
-- The separate eight-page project report PDF.
 
-See ASSET_INVENTORY.md for the exact filenames and verification notes. The report text extraction is available in report/report-extracted.txt.
+See [ASSET_INVENTORY.md](ASSET_INVENTORY.md) for exact filenames and inspection notes.
 
 ## MATLAB / Simulink compatibility and reproducibility
 
