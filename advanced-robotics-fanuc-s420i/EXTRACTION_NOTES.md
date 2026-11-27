@@ -23,7 +23,7 @@ The source does not explicitly state the length unit.
 2. The report says a simulation video was attached separately. No video or executable Simulink/Simscape model is embedded in the supplied DOCX.
 3. Numeric link masses, COM vectors/distances and complete inertia tensors are not supplied. The dynamics sections retain symbolic m1...m6, i1...i6 / I1...I6 and L1...L6.
 4. The Peter Corke section comments describe links 2 and 3 as prismatic, but the shown Link([theta d a alpha]) constructors do not explicitly request prismatic joints. The source definitions are preserved; joint types must be checked against the robot manual.
-5. The source assigns Th_1...Th_6 but calls fkine using teta1...teta6. The organized model uses q_home to avoid the undefined-variable mismatch.
+5. The source assigns Th_1...Th_6 but calls fkine using teta1...teta6. The organized model uses q_home to avoid the undefined-variable mismatch. The source's q_home values are -pi/4 for all joints, while the listed qlim ranges start at zero; this pose is therefore outside the stated limits even though fkine may still evaluate it.
 6. The source singularity loop uses singular{i} and i=i+1 without showing initialization. The organized script initializes these and uses a determinant tolerance rather than exact equality to zero.
 7. The source compares a matrix directly in an if expression for the Jacobian check. The organized script uses isequal on the simplified matrix difference.
 8. The source reuses g for the gravity scalar and later the gravity vector. The organized scripts use g0 and Gvec.
