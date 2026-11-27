@@ -1,0 +1,608 @@
+<PARSED TEXT FOR PAGE: 1 / 8>                                                                                                                                     1
+
+
+
+
+        Resilient Model Predictive Control for
+    Cyber-Physical Systems under Denial-of-Service
+                        Attacks
+    Seyyedhossein Seyyedhosseini, Department of Electrical Engineering Amirkabir University of Technology
+         Amirreza Akbari, Department of Mechanical Engineering Amirkabir University of Technology
+          Nasim Taghavi, Department of Electrical Engineering Amirkabir University of Technology
+
+
+
+   Abstract—In this brief, we investigate the Cyber-Physical Sys-     DoS attack is characterized with discrete-time form. However,
+tems (CPSs) with measurement channels under Denial-of-Service         the control methods of the aforementioned works [2]- [5]
+(DoS) attacks. An equivalent predictive control system model          mainly focus on the transmission time scheduling and input-
+and attack model are constructed firstly. To compensate for the
+data loss due to the attacks, the predictive controller is designed   to-state stability framework, while the optimization of the
+based on three control algorithms, state-space MPC, linear            system state under the DoS attacks is considered rarely. The
+quadratic and laguerre form. Furthermore, through the design          optimization-based control has been widely utilized in CPSs.
+of an observer-based output predictor, a novel resilient observer-    In [4], the optimization-based approach is applied to optimize
+based predictive control framework is presented to improve the        the performance of the obstacle avoidance and tracking control
+resiliency of the controllers for single and leaderless and leader-
+follower multi agent systems. Finally, the efficacy of the proposed   for home automation. Furthermore, similar optimal problems
+control strategies is illustrated through a comparative simulation    are considered to optimize the performance of the Obstacle
+two case studies: 1)Single and multiple UPS; 2) Single and            avoidance and tracking control for cooperative robots in smart
+distributed cooperative control of unstable microgrid; 3)multiple     homes. Moreover, as the general form of optimal control, LQ
+leader follower manipulator.                                          control has been implemented in CPSs against Cyber-attacks
+  Index Terms—Model Predictive Control(MPC), Resilien MPC,            by some researchers [1]- [8]. In [1], the LQ secure hybrid
+DoS attack, Denial-of-Service (DoS) attack, Multi Agent (MAS).        control systems and the online adjustment strategy is designed
+                                                                      under systems and the online adjustment strategy is designed
+                                                                      under the sensor and actuator attacks. Furthermore, the optimal
+                       I. I NTRODUCTION                               DoS attack strategy is implemented under the energy constraint
+      YBER-PHYSICAL Systems (CPSs) have been infiltrated              in [8]. However, the state divergence of the systems caused
+C     Winto quite a lot of industrial fields with rapid de-
+velopment in computing, communication, and information
+                                                                      by the interruption of networked communication will increase
+                                                                      the cost of the system, while the research on the LQ control
+technologies. However, CPSs rely heavily on computers and             strategy for cost optimization of CPSs under the DoS attacks
+multi-purpose networks and they increase the risk of cyber-           is still lacking. Thereby LQ observer-based feedback control
+attacks on the CPSs to transmit data confidentiality, integrity,      is designed against attacks with predicted states in this brief,
+and availability. The cyber-attacks in CPSs have triggered the        and the feedback controller can be established by using the
+attention of more and more researchers. This brief is inter-          information of the observer. The LQ resilient predictive control
+ested in DoS attacks, which aim to block the communication            framework with an observer-based predictor is proposed for
+process of data transmission. Recently, the research for the          the CPSs against DoS attacks. The main works that have been
+DoS attack model concentrates on two main forms. One is               done in this brief be summarized: We have proposed three
+the DoS attack model characterized by Bernoulli distribution.         predictive controllers, LQR, State-Space MPC, and Laguerre
+However, the probability of the attack is set to a fixed value        MPC to compensate for the data loss of the single and
+in many works on the DoS attack model characterized by                MAS systems due to the DoS attack. To further improve the
+the Bernoulli distribution. But the probability of the attack         robustness of the controller, a new resilient predictive control
+is mostly unknown because of the concealment of hackers,              framework against the DoS attack is implemented, and the
+Consider this problem, another kind of DoS attack model is            corresponding prediction horizon of future data is defined
+characterized by two assumptions of DoS Frequency and DoS             by the general DoS attack model. Finally, a numerical four
+Duration in [2], and the input-to-state stability property of         examples are given and it shows that the performance of
+CPSs is investigated. Motivated by this work, the input-to-           system state responses with the proposed method is improved
+state stability of the CPSs with multiple transmission chan-          compared with the existing observer-based control proposed
+nels under the DoS attack is investigated by Lu and Yang.             by [6] under DoS attacks. The following parts are organized
+Furthermore, a resilient filtering problem for the discrete-          as follows. The prerequisite problem formulation is given in
+time systems under DoS attacks is considered in [5]and the            section II. In section III, the resilient controller predictive
+                                                                      secure control framework is analyzed for single agents. In
+                                                                      section IV, proposed algorithms are formulated for multi-agent<PARSED TEXT FOR PAGE: 2 / 8>                                                                                                                                                       2
+
+
+
+systems, and in section V, are four examples are implemented.              be blocked. While time-delay is caused by characteristics of
+Finally, the conclusion of this work is given in section VI.               communication channels, which is essentially different from
+                                                                           DoS attack. Assumption 1 and 2 are sufficient conditions for
+        II. P REREQUISITE P ROBLEM F ORMULATION                            the system to be controllable under DoS attack and ensure that
+A. Graph Theory                                                            the energy of the attack signal is finite [9].
+    The interacting topology among N + 1 agents is character-
+ized by a directed graph G = (V, E, A), with a set of nodes                                         III. S INGLE AGENT
+V = {v0 , v1 , v2 , . . . , vN }, a set of edges E ⊆ V × V, and an
+                                                                           A. System Modeling
+adjacency matrix A = [aij ]. The element aij of A belongs
+to the set {0, 1}, and aij = 1 if and only if (vj , vi ) ∈ E.                We consider the CPSs whose measurement channels are
+Moreover, self-loops are not allowed. The in-neighbor set                  networked with sampling time ∆, and we consider a class
+of node vi is represented by Ni+ = {vj ∈ V, (vj , vi ) ∈ E},               of CPSs modeled by [9]
+and the outneighbor set of node vi is denoted by Ni− =
+{vj ∈ V, (vi , vj ) ∈ E}. The Laplacian matrix L = [ℓij ] is                   ẋ(t) = Ax(t) + Bu(t) + ω(t), y(t) = Cx(t) + d(t)                     (5)
+                                                              ∑N
+defined by ℓij = −aij for i ̸= j, and ℓii =                      j=1 aij   where x(t) ∈ Rn , u(t) ∈ Rm , and y(t) ∈ Rl are states, inputs,
+for i = 0, 1, 2, . . . , N . An alternating sequence of nodes              and measured output respectively; A ∈ Rn×n , B ∈ Rn×m , and
+i1 i2 . . . ik ik+1 , ir ∈ V, r = 1, 2, . . . , k constitutes a directed   C ∈ Rl×n represent system matrices with (A, B) controllable
+path if (v   ( i , vi , 1) ∈) E. A directed spanconstitutes a directed     and (A, C) observable; ω(t) ∈ Rn and d(t) ∈ Rl are the
+path if vir , vir+1 ∈ E. A directed span- ning tree is a                   system bounded disturbances and measurement noises.
+subgraph of G which has all the nodes covered with the subset                 Then let τ ∈ N1 denote the prediction horizon,
+of E. For a spanning tree, every node except for the beginning             and the input data packets are written as ū (tk ) =
+one (called the root), has an in-degree being one, and the root            [
+                                                                                    T           T                      T
+                                                                                                                         ]T
+node has no in-neighbors [10].                                               u (tk ) , u (tk+1 ) , · · · , u (tk+r−1 )      , and the output
+                                                                           packet ȳ (tk ), the noises packets d¯(tk ), ω̄ (tk ) can also be
+B. Denial of Service Attack                                                got by the same thinking. Hence, the continues-time system
+                                                                           (3) can be discretized by
+   The DoS attacks are referred to as the phenomenon that the
+transmission process will be stopped. This DoS attack can be                       ȳ (tk ) = Ox (tk ) + F ū (tk ) + Ωω̄ (tk ) + d¯(tk )            (6)
+regarded as pulse waves with variable periods. So let
+                                                                           where the ∫discrete-time system matrixes are such thatĀ =
+                      Hn := {hn } ∪ [hn , τn )                      (1)                ∆
+                                                                           eA∆ , B̄ = 0 eAλ Bdλ ,
+represent the nth DoS interval. {hn }n∈N0 ∈ R≥0 is the                          [                 (       )T       (       )T ]
+sequence of DoS off/on transitions and τn ∈ R≥0 denotes                    O = C T (C Ā)T          C Ā2    · · · C Āt−1
+that the we assume that n(0, t) denotes the number of DoS                                                                                       
+off/on transitions over [0, t]. Let                                                             0                 0         ···     0         0
+                                ⋃                                                             C B̄               0         ···     0         0 
+                   Ξ(0, t) :=       Hn ∩ [0, t]        (2)
+                                                                                                                                                
+                                                                                   F =
+                                                                                              CAB               cB̄        ···     0         0 
+                                 n∈N0                                                          ..                ..        ..      ..        .. 
+                                                                                                .                 .           .     .         . 
+denote the time set when the system is suffering attacks.
+                                                                                             C Āτ −2 B̄      C Āτ −3 B̄   ···    C B̄       0
+Hence, let Θ(0, t̄) = [0, t̄]/Ξ(0, t̄) represent the time quantum
+when the system is healthy. The attack energy must be finite
+and it is determined by the attack period and frequency. Then                                                                               
+                                                                                                      0            0        ···    0      0
+there exist the two assumptions.                                                                    C             0        ···    0      0 
+   Assumption 1 (DoS Duration): there exist T ∈ R>1 and                                                                                     
+                                                                                        Ω=
+                                                                                                    CA            C        ···    0      0 
+η ∈ R≥0 , such that κ ∈ R≥0 , such that                                                                                                      
+                                                                                                     ..           ..       ..     ..     .. 
+                                                                                                      .            .          .    .      . 
+                   |Ξ(0, t̄)| < η + t̄/T, t̄ ∈ R>0                  (3)                            C Āτ −2     C Āτ −3    ···    C      0
+  Assumption 2 (DoS Frequency): there exist τD ∈ R>0 and                   The output of the system can be simplified to
+κ ∈ R≥0 , such that
+                                                                                                  y̆ (tk ) = Ox (tk ) + ϑ (tk )                      (7)
+                   n(0, t̄) < κ + t̄/τD , t̄ ∈ R>0                  (4)
+   Remark: Generally, the information security requirements                where y̆ (tk ) = ȳ (tk ) − F ū (tk ) , ϑ (tk ) = Ωω̄ (tk ) + d¯(tk ).
+for a system include three main security properties: confi-                So the system (1) is rewritten as
+dentiality, integrity, and availability. The availability of the
+                                                                                    {
+                                                                                        x (tk+1 ) = Āx (tk ) + F̄ ū (tk ) + ω (tk )
+system will be destroyed by the DoS attack, which can                                                                                         (8)
+                                                                                        y (tk ) = Ox (tk ) + ϑ (tk )
+occupy communication resources via sending large amounts
+of illegal data packets, and the communication channel will                where F̄ = [B̄, 0, · · · 0].<PARSED TEXT FOR PAGE: 3 / 8>                                                                                                                                                         3
+
+
+
+B. Controllers                                                                     as small as possible. R̄ is a diagonal matrix in the form
+   Three methods have been used to design the control                              that R̄ = rw INc ×Nc (rw ≥ 0) where rw is used as a tuning
+signal. First we use the LQR method, then State State-space                        parameter for the desired closed-loop performance. For the
+Model MPC and finally parameterizing the control signal by                         case that rw = 0, the cost function (13) is interpreted as the
+Laguerre functions to increase the speed of the controller.                        situation where we would not want to pay any attention to
+                                                                                   how large the ∆U might be and our goal would be solely to
+   1) LQR Control: To ensure the optimal stability of the                          make the error Y T QY as small as possible. For the case of
+systems, we define the linear quadratic cost function for (5)                      large rw , the cost function (13) is interpreted as the situation
+first [9].                                                                         where we would carefully consider how large the ∆U might
+                       N (
+                                                                                   be and cautiously reduce the error Y T QY .
+                                                                                      To find the optimal ∆U that will minimize J
+                       ∑                                         )
+                                    T                   T
+      J (x (tk )) =          y (ti ) P y (ti ) + u (ti ) Ru (ti )            (9)
+                       i=k                                                                           T
+                                                                                      J = (Ox (ki )) Q (Ox (ki )) − 2∆U T ΦT (Ox (ki ))
+where P = P        T
+                       > 0 and R = R > 0.   T                                                                                                         (15)
+                                                                                        + ∆U T F T QF + R̄ ∆U
+                                                                                               (           )
+
+                                    T
+  Let J (x (tk )) = x (tk ) Qx (tk ), then the optimal control                     From the first derivative of the cost function J :
+law can be derived by inserting (7) into (8), hence                                     ∂J
+                                                                                           = −2OT (Ox (ki )) + 2 F T QF + R̄ ∆U
+                                                                                                                (           )
+                                                                                                                                                      (16)
+                                                                                       ∂∆U
+                    u (tk ) = −Kxk                                          (10)
+         (             )−1 T                                                       the necessary condition of the minimum J is obtained as
+where K = R + B̄ T QB̄      B̄ QĀ and it satisfies
+                                                                                                                    ∂J
+  T            T                    T
+                                            (          T
+                                                              )−1       T                                              =0                             (17)
+Ā QĀ + C P C − Q − Ā QB̄ R + B̄ QB̄          B̄ QĀ = 0                                                         ∂∆U
+                                                        (11)                       from which we find the optimal solution for the control signal
+For the equivalent system (5), by substituting (9) into the                        as
+discrete-time form of (5), the state feedback controller can                                                      )−1 T
+                                                                                           ∆U = − F T QF + R̄
+                                                                                                     (
+                                                                                                                      F (QOx (ki ))          (18)
+be designed as
+                                                                                                                   )−1 T
+                                                                                              Kmpc = − F T QF + R̄
+                                                                                                      (
+                                [                                      ]T                                             F (QO))                         (19)
+      ū (tk ) = FK x (tk ) =                                      T
+                                    K0tk T , K1tk T , · · · , Kτtk−1
+                                                      x (tk )
+                                                           (12)
+   where Kitk = −K(Ā − B̄K)i , i = 0, 1, · · · τ − 1. Let
+tr ∈ [0, t]/Ξ(0, t) be the sequence of successful transmission                       3) Laguerre Control: In Laguerre MPC according to [7]
+instant. Then the optimal state feedback controller under the                      we use Laguerre function as a coefficient in control
+attack is
+                               tr
+                     u(t) = Kk(t)−r x (tr )                (13)                                          ∆u (ki + k) = L(k)T η                        (20)
+   where k(t) = {k | tk ≤ t < tk+1 } .x (tr ) is the last safe                       Recall from MPC equations
+state feedback value received from the predictor described at
+t. Remark 2: According to the theory of LQ optimal control,
+                                                                                                                              m−1
+the optimal control law of the discrete-time satisfies (10).                                                                  ∑
+Consider the sample time, (the optimal             control law can be                x (ki + m | ki ) = Am x (ki ) +                Am−i−1 BL(i)T η
+                                          )                                                                                   i=0
+                                                                                                                                                      (21)
+expressed by    u(t)  =  −Kx       t k(t)   . However,  if tk ∈ Ξ(0, t̄),                                     m                      T
+             (    )
+the state x tk(t) can’t be received by the controller                                                = A x (ki ) + ϕ(m) η
+                                                              ( due   ) to
+the attacks. But    the  state   can    be    obtained by   x  tk(t)     =                                        ∑m−1
+               (
+(A − BK)x tk(t)−1
+                        )
+                          =   · · ·  =    (A  −  BK)  k(t)−r
+                                                             x (t  ),  that           where the matrix ϕ(m)T = i=0 Am−i−1 BL(i)T . Note
+                                                                 r
+                     (     )
+is u(t) = −Kx tk(t) = −K(A − BK)k(t)−r x (tr ) =                                   that the number of rows in ϕ(m) is identical to the number
+   tr                                                                              of rows in η. By substituting (19) into the cost function, we
+Kk(t)−r  x (tr ) , which illustrates that the control law (12)
+                                                                                   obtain
+equivalents to the LQ optimal control law of the corresponding
+time. Then the optimization of the proposed controller (12) is
+                                                                                                                                             
+demonstrated.                                                                                                Np
+                                                                                                             ∑
+   2) State-Space MPC Control: we define the cost function                                    J = ηT              ϕ(m)Qϕ(m)T + RL  η
+J that reflects the control objective as [7]                                                                 m=1
+                                                                                                                                    
+                                T                 T                                                           Np
+                        J = Y QY + ∆U R̄∆U                                  (14)                              ∑
+                                                                                                + 2η T             ϕ(m)QAm  x (ki )                 (22)
+where the first term is linked to the objective of minimizing                                                m=1
+the errors between the predicted output and the set-point signal                                    Np
+while the second term reflects the consideration given to the                                       ∑              T (        )m
+                                                                                                +         x (ki )        AT        QAm x (ki ) ·
+size of ∆U when the objective function J is made to be                                              m=1<PARSED TEXT FOR PAGE: 4 / 8>                                                                                                                                                                   4
+
+
+                                                                                                                      ∑Np ( T )m
+   To find the minimum of (20), without constraints, we use                               where the matrix Pdmpc = m=1        A      QAm − ΨT Ω−1 Ψ.
+the partial derivative of the cost function:                                              Receding Horizon Control Upon obtaining the optimal param-
+                                                                                        eter vector η, the receding horizon control law is realized as
+                        Np
+            ∂J
+                                                                                                                   ∆u (ki ) = L(0)T η
+                       ∑
+                = 2        ϕ(m)Qϕ(m)T + RL  η                                                                                                               (30)
+            ∂η         m=1
+                                                     (23)                               where for a given N and a,
+                        Np                                                                          √
+                                                                                           L(0)T = (1 − a2 ) 1 − aa2 − a3 · · · (−1)N −1 aN −1 (31)
+                       ∑                                                                                      [                               ]
+                                     m
+                + 2        ϕ(m)QA  x (ki )
+                                  m=1
+                                                                                          The control ∆u(k) can be written in the form of linear state
+                              (∑                                        )−1               feedback control by replacing ki with k ( η is a function of
+                                    Np           T
+  Assuming that                     m=1 ϕ(m)Qϕ(m) + RL                          exists,   state variable x (ki ) ). Namely,
+        ∂J
+when            = 0, the optimal solution of the parameter vector
+        ∂η                                                                                                      ∆u(k) = −Kmpc x(k)                            (32)
+η is
+                                             −1                                       and the state feedback gain matrix
+             Np                                         Np
+             ∑                                          ∑                                                                                −1
+                     ϕ(m)Qϕ(m)T + RL                         ϕ(m)QAm  x (ki ) ·
+                                                                                                                                                             
+ η = −                                                                                                        Np
+                                                                                                                ∑                              Np
+                                                                                                                                               ∑
+                                                                                                         T                     T                            m
+             m=1                                        m=1                                 Klag = L(0)              ϕ(m)Qϕ(m) + RL                 ϕ(m)QA
+                                                                                   (24)                        m=1                             m=1
+For simplicity of the expression, we define                                                                                                                   (33)
+                                                                                          which is simplified in notation as
+                                                                  
+                                 Np
+                                 ∑                                                                               Klag = L(0)T Ω−1 Ψ                           (34)
+                     Ω=               ϕ(m)Qϕ(m)T + RL                           (25)
+                              m=1
+                                                                                          C. Resilient MPC
+                                                             
+                                        Np
+                                        ∑                                                    To improve the resiliency and anti-interference of the con-
+                             Ψ=              ϕ(m)QAm                            (26)    troller, the observer-based controller is obtained [9]
+                                        m=1                                                  
+                                                                                             u(t) = −K x̂(t)
+                                                                                             
+  leading to                                                                                    ˙
+                                                                                               x̄(t) = Ax̂(t) + Bu(t) + G[ŷ(t) − C x̂(t)] t ̸= tr (35)
+                                                                                             
+                                  η = −Ω−1 Ψx (ki )                                            x̂(t) = x̄(t)                                 t = tr
+                                                                                             
+                                                                                  (27)
+
+The Minimum of the Cost The minimum value of the cost,                                    where the filter matrix G is the reconstruction matrix. The
+Jmin , is of interest to us. To find the minimum, we complete                             measured output received by the filter is:
+                                                                                                             {
+the square                                                                                                      ŷ(t) = y(t)      t ∈ [0,
+                                                                                                                                       ) t]/Ξ(0, t)
+                                                                                                                           (                                  (36)
+                                                                                                                ŷ(t) = ȳˆ tk(t) | tr     t ∈ Ξ(0, t)
+                                                                                                       (          )
+                Np
+                ∑                                                                         where ȳˆ tk(t) | tr represents the output prediction value at
+J = ηT               ϕ(m)Qϕ(m)T + RL  η                                                 tk predicted at tr . Then, the output predictor can be designed.
+              m=1                                                                                                                             (             )
+                                                                                             x̄ (tr+1 ) = Ax̄ (tr ) + F̄ u (tr ) + Gσ y̆ (tr ) − ȳˆ (tr )
+                    Np
+                    ∑                                                                              ȳˆ (tr ) = Ox̄ (tr )
+  + 2η T                ϕ(m)QAm  x (ki )                                                     ˆ
+                                                                                                   ȳ (tr ) = ȳˆ (tr ) + F ū (tr )
+                m=1                                                                                                                                           (37)
+       Np                                                                                 where Gσ is the observer gain that should be designed, and
+      ∑                T (        )m
+  +          x (ki )         AT        QAm x (ki )                                        y̆ˆ (tk ) is the predictive output data packet, by selecting an ap-
+      m=1                                                                                 propriate matrix Gσ , which can make Φ = Ā − Gσ O Hurwitz
+                    )T (
+  = η + Ω−1 Ψx (ki ) Ω η + Ω−1 Ψx (ki )                                                   matrix and the solution can be obtained based on Linear matrix
+   (                                   )
+
+                                              Np                                          inequality ΦT P̃ Φ − P̃ + Q̃ = 0, P̃ = P̃ T ≥ 0, Q̃ = Q̃T ≥ 0.
+                T
+                                              ∑           T (          )m
+  − x (ki ) ΨT Ω−1 Ψx (ki ) +                       x (ki )       AT        QAm x (ki )
+                                              m=1                                                                 IV. M ULTI AGENT
+                                                                                  (28)    A. Leaderless
+  Therefore, with the optimal solution (22), the minimum of                                  This section considers globally optimal consensus protocols
+the cost function is                                                                      for the leaderless and pinning control cases for agents having
+                                                                                        states xi ∈ Rn with linear time-invariant dynamics
+                     Np
+                T 
+                     ∑  ( T )m
+  Jmin = x (ki )         A      QAm − ΨT Ω−1 Ψ x (ki )                                                         ẋi = Axi + Bui ∈ Rn                          (38)
+                              m=1
+                         T
+                                                                                          or in global form
+        = x (ki ) Pdmpc x (ki )
+                                                                                  (29)                      ẋ = (IN ⊗ A) x + (IN ⊗ B) u                      (39)<PARSED TEXT FOR PAGE: 5 / 8>                                                                                                                                                 5
+
+
+
+                                                                            For the introduced MAS system, the controller gains are
+                                                                            obtained as follows:
+
+                                                                            LQR gain:
+
+                                                                             Klqr = (R + (IN ⊗ B)T Q′ (IN ⊗ B))−1 (IN ⊗ B)T Q′ (IN ⊗ A) (53)
+
+                                                                            State-Space MPC gain:
+                                                                              Kmpc = (In ⊗ [ 1       0     0      0 ])[(IN ⊗ F )T QT (IN ⊗ F )
+                                                                                          −1
+Fig. 1. The predictive control framework for CPSs against DoS attack.               + R)]      [(IN ⊗ F ) Q′ (IN ⊗ 0)]
+                                                                                                            T
+
+                                                                                                                                            (54)
+                                                                            Laguerre gain:
+In the cooperative regulator problem, it is desired for all agents
+to achieve the same state, that is ∥xi (t) − xj (t)∥ → 0 as t →                                 
+                                                                                                    Np
+                                                                                                                                  
+∞, ∀(i, j). Define the local neighborhood error as
+                                                                                                    ∑
+                                                                                         Ω=              ϕ(m)Q′ ϕ(m)T + RL 
+                          ∑                                                                         m=1
+                     ηi =     eij (xi − xj )                  (40)                                                           
+                                 j                                                                  Np
+                                                                                                    ∑
+                                                                                         ψ=              ϕ(m)Q′ (IN ⊗ A) .
+where ηi [∈ Rn . The] overall local neighborhood error vec-
+                   T T                                                                            m=1
+tor e = η1T . . . ηN    is equal to e = (L ⊗ In ) x. Then
+                                                                                                                        ⊤
+a distributed control that guarantees consensus is given as                                  Klag = (IN ⊗ L(0)) Ω−1 ψ                       (55)
+ui = −cK2 ηi , for an appropriate coupling gain c > 0 and
+local feedback matrix K2 . In global form this is the local
+                                                                            B. Leader-follower
+voting protocol
+                     u = −c (L ⊗ K2 ) x                (41)                   As the leader has no in-neighbor nodes, its dynamical
+                                                                            equation becomes
+which gives the global closed loop system                                                       ẋo (t) = Axo (t)              (56)
+                  ẋ = (IN ⊗ A − cL ⊗ BK2 ) x.                       (42)     We use this control signal for leader-follower system:
+                                                                                                     ∑
+                                                                                       ui (t) = cK        aij (x̂j (t) − x̂i (t))    (57)
+                                                                                                          j∈Ni+
+       ∑                     T
+ J=         (aij [xj − xi ]) Q (aij [xj − xi ])+∆U T R∆U (43)
+        j
+                      ∑                                                       x̂˙ = (IN ⊗ A) x̂ + (IN ⊗ B) u + θ(y̆ − (L ⊗ HC)x̂) (58)
+               ηi =        aij [xj − xi ] = (L ⊗ In ) X              (44)
+                       j
+                                                                                                      V. E XAMPLES
+                J = X T L ⊗ In )T Q (L ⊗ In ) X
+                       (
+                                                                     (45)     In this section, the introduced algorithms are implemented
+                                       T
+                    Q′ = (L ⊗ In ) Q (L ⊗ In )                       (46)   on two systems in single agent mode and multi agent mode.
+
+  consequently, instead of using Q in LQR, State Space MPC,                 A. Uninterruptible Power Supply System
+and Laguerre, we use Q′ .
+                                                                                1) UPS: In this part, an uninterruptible power supply (UPS)
+               y̆ = (IN ⊗ O) x + (IN ⊗ Ω) w̄ + d¯                    (47)     system  is implemented to indicate the effectiveness of the
+                                                                              proposed control method, and it can be well integrated with
+                           y = (IN ⊗ C) x                            (48) CPSs as shown in Fig.2, where energy supply is efficiently
+                                                                              managed. Consider a UPS with the discrete-time system
+                                                                             matrixes [11]
+ ui (t) = −Ki x̂i (t)                                                                                                          
+                                                                                            0.9226 −0.6330 0
+
+
+
+                                                                                                                                1
+   ˙
+  x̄(t) = (IN ⊗ A) x + (IN ⊗ B) u + (IN ⊗ G) [ŷ(t) − (IN ⊗ C) x̂]    t ̸= tr
+
+
+
+                                                                                    Ā =      1         0       0  , B̄ =  0  ,
+                                                                                               0         1       0               0
+
+x̂(t) = x̄(t)                                                        t = tr
+                                                                       (49)                                              
+                                                                                                           1 0.2 0.6
+                                      (            )
+      x̄ (tr+1 ) = (IN ⊗ A) x̄ (tr ) + IN ⊗ F̄ u (tr )                                           C =  0.5 0.6 1.2 
+                            [                    ]                   (50)                                 0.5 0.9 1.5
+                 + (IN ⊗ G) y̆ (tr ) − y̆ˆ (tr )
+                                                                            The optimal gain, output predictor gain, and filter gain are
+                                                                            solved as:
+                      y̆ˆ (tr ) = (IN ⊗ O) x̄ (tr )                  (51)
+                 ȳˆ (tr ) = ȳˆ (tr ) + (IN ⊗ F ) ū (tr )          (52)<PARSED TEXT FOR PAGE: 6 / 8>                                                                                                                                                            6
+
+
+
+
+Fig. 2. The CPSs architecture for the uninterruptible power supply system
+
+
+
+
+                                                                                  Fig. 5. Multi UPS error states without Resilient Controler. (first row)on
+                                                                                  Attack. (Seconod row) without Attack.
+
+
+
+
+Fig. 3. Single UPS error states without Resilient Controler. (first row)on
+Attack. (Seconod row) without Attack.
+
+
+
+
+Fig. 4. State trajectories error of the linear Single UPS: (first row) Laguerre
+Controller. (second row) State Space MPC. (third row) LQR Controller.
+
+
+                                               
+       0.0450            0.0187          0.0338
+G =  0.0005             0.0252           0.045                                  Fig. 6. State trajectories error of the linear Single Multi-UPS: (first row)
+                                                                                  Laguerre Controller. (second row) State Space MPC. (third row) LQR Con-
+      −0.0631           −0.0445         −0.0827                                   troller.
+                                                                
+           0.0450             0.0187         0.0338
+   Gσ =  0.0005              0.0252         0.0450      03×9                      2) Multi UPS: for designe Leaderless multi UPS system
+          −0.0631            −0.0445        −0.0827                               the following Laplacein matrix is used;
+       [                                ]                                                                                               
+K=         1.0766    −0.3101        0                                                                1             0      0    0      −1
+                                                                                                    −1            1      0    0      0 
+                                                                                                                                        
+   according Fig.3. when the system subject to the DOS attack                                       −1
+                                                                                                 L=               0      1    0      0               (59)
+and the packets could be dropped due to the jamming in the
+                                                                                                    0            −1      0     1      0 
+communication networks. Data loss has occurred in the sensors                                        0            −1     −1    −1      3
+and the attack has shown its effectiveness as a delay because
+the system is stable.by using Resilient MPC by three methods                         in Fig. 5. and Fig. 6. when the system exposes the DOS
+which were stated, the effect of the attack is compensated and                    attack, create a delay in consensus. by using resilient MPC in
+There are no delays in the system in three methods. to compare                    three methods this delay is compensated. Laguerre MPC has
+these methods Laguerre MPC is faster than others also has a                       a fast state and better response in consensus error and control
+better control signal than LQR MPC and State Space MPC.                           signal.<PARSED TEXT FOR PAGE: 7 / 8>                                                                                                                                                 7
+
+
+
+
+Fig. 7. Communication topologies of the MASs
+
+
+
+
+                                                                          Fig. 9. State trajectories error of the linear Microgrid: (first row) LQR
+                                                                          Controller. (second row) under attack. (third row) without attack.
+
+
+
+
+Fig. 8. Cooperative control of an islanded microgrid under DoS attacks.
+
+
+B. Microgrid
+  1) Microgrid: Consider a microgrid with unstable linear
+dynamics:                                                                 Fig. 10. State trajectories error of the multi-Microgrid: (first row) LQR
+                                                                        Controller. (second row) under attack. (third row) without attack.
+                      0.48 0.29 −0.3
+              A =  0.13 0.23        0 
+                        0    −1.2 −1
+                                          
+                    2    0           1 0 0
+          B =  −1.5 1  , C =  0 1 0 
+                    0    1           0 0 1
+               [                             ]
+                  1.9115 −1.1429 0.4148
+          K=
+                  3.0186 4.4625 −0.5557
+                                             
+                  5.0468     1.516   −0.5215
+        G =  1.5160        1.8633 −0.6870 
+                 −0.5215 −0.6870 1.7919                                   Fig. 11. Communication topologies of the MASs: (a) in the absence of DoS
+                                                                          attacks, and (b) with sensors communication networks under DoS attacks.
+   The proposed distributed secondary controller is tested with
+a 220-V (per phase RMS) 50-Hz islanded microgrid system
+[3]. in this case, the system is unstable and when a DOS attack           C. Six Single Link Manipulators
+has occurred, the system loses its stability due to the sensors
+being exposed to the attack and data is not can to transmit                 Let us consider a leader-follower MASs of six singlelink
+to the observer and the system be unstable. in other words,               manipulators with revolute joints actuated by DC motors. The
+voltage regulation is not established. by using a resilient MPC           corresponding communication topology G is plotted in Fig.
+system achieve to stability.                                              11(a). The model of the i th manipulator is [10]
+
+                                                                                    θ̇mi = ωmi
+   2) Multi Microgrid: To design a multi-agent system, we use
+the microgrid dynamics introduced in the previous section. We                                 k                     B         Kτ
+                                                                                    ω̇mi =         (θl − θmi ) −       ωmi +       u
+also use the Laplacein matrix (59) to build the MAS network.                                 Jmi i                 Jmi        Jmi
+Fig. 10. is illustrated when a leaderless system subjected to the                     θ̇li = ωli
+DOS attack system loses its consensus but by using resilient                                     k                  mgh
+MPC, the system achieves consensus.                                                  ω̇li = −       (θli − θmi ) −      sin (θli )
+                                                                                               Jli                  Jli<PARSED TEXT FOR PAGE: 8 / 8>                                                                                                                                                      8
+
+
+
+
+Fig. 12. State trajectories and consensus tracking of leader.
+
+                                                                         Fig. 13. State trajectories and consensus tracking error of the leader-follower
+                                                                         MASs: (first row) without DoS attacks. (second row)/(third row) Observer
+The state-space dynamics of the i th agent can be modeled                communication network under DoS attacks without/with Resilient MPC.
+with
+                                                   
+            0      1       0       0               0                                                   R EFERENCES
+       −48.6 −1.26 48.6          0  , B =  21.6 
+                                                     
+ A=                                                                      [1] Liwei An and Guang-Hong Yang. Lq secure control for cyber-physical
+           0      0       0      10             0                         systems against sparse sensor and actuator attacks. IEEE transactions
+          1.95     0     −1.95 0                   0                          on control of network systems, 6(2):833–841, 2018.
+      [                ]                                                  [2] Claudio De Persis and Pietro Tesi. Input-to-state stabilizing control
+         1 0 1 −1
+ C=                                                                           under denial-of-service. IEEE Transactions on Automatic Control,
+         0 1 0 0                                                              60(11):2930–2944, 2015.
+                                                                          [3] Zhi Feng and Guoqiang Hu. Secure cooperative event-triggered control
+   In this simulation, the network transmission period is chosen              of linear multiagent systems under dos attacks. IEEE Transactions on
+as δ = 0.01 s.                                                                Control Systems Technology, 28(3):741–752, 2019.
+                                                                          [4] Ameer Tamoor Khan, Shuai Li, and Zhan Li. Obstacle avoidance and
+   The observer and controller communication topologies in                    model-free tracking control for home automation using bio-inspired ap-
+the presence of DoS attacks are depicted in Fig. 11(b) and                    proach. Advanced Control for Applications: Engineering and Industrial
+(c). Set the observer and controller coupling coefficients θ = 5,             Systems, page e63, 2021.
+                                                                          [5] Renjie Ma, Peng Shi, Zhenhuan Wang, and Ligang Wu. Resilient
+c = 2 and select parameters α = 2, β = 2.                                     filtering for cyber-physical systems under denial-of-service attacks.
+                                                                              International Journal of Robust and Nonlinear Control, 30(5):1754–
+           [                                                      ]           1769, 2020.
+    K=         79.1094     5.2218      −29.6498        163.9093           [6] Lei Su and Dan Ye. Observer-based output feedback h-inf control for
+                                                                              cyber–physical systems under randomly occurring packet dropout and
+                                                                              periodic dos attacks. ISA transactions, 95:58–67, 2019.
+                                                                        [7] Liuping Wang. Model predictive control system design and implemen-
+         3.0849 0.6931                                                        tation using MATLAB®. Springer Science & Business Media, 2009.
+        2.4258 34.9384                                                  [8] Heng Zhang, Peng Cheng, Ling Shi, and Jiming Chen. Optimal
+     H=
+        7.0235 3.5334 
+                        
+                                                                              dos attack scheduling in wireless networked control system. IEEE
+                                                                              Transactions on Control Systems Technology, 24(3):843–852, 2015.
+         0.5400 1.8007                                                    [9] Longjie Zhang, Yong Chen, and Meng Li. Resilient predictive con-
+                                                                              trol for cyber–physical systems under denial-of-service attacks. IEEE
+Define[ the consensus] error of the MASs as                                   Transactions on Circuits and Systems II: Express Briefs, 69(1):144–148,
+                                 T
+e=        1 1 1 1 1                ⊗ x0 − x . The state trajectories          2021.
+xij (t), i = 0, 1, . . . , 5, j = 1, . . . , 4 and the consensus error   [10] Zhiqiang Zuo, Xiong Cao, Yijing Wang, and Wentao Zhang. Resilient
+                                                                              consensus of multiagent systems against denial-of-service attacks. IEEE
+e(t) of linear MASs in the absence of DoS attacks. It is clear                Transactions on Systems, Man, and Cybernetics: Systems, 2021.
+that consensus is ensured in this case. In the presence of DoS
+attacks, which only jamming the observer communication
+network.
+
+                              C ONCLUSION
+   As can be seen from the results obtained from numerical
+examples, the proposed resilient algorithm is responsive to
+different systems in multi-agent modes and greatly reduces
+the effects of the DoS attack. This increase speed to respond
+to the system shows itself when using of laguerre controller.
+The effect of this controller on different Dos attacks was
+investigated for different examples. For future projects, this
+resilience algorithm can be implemented on other systems or
+experimental tests can be performed on it. The algorithm can
+also be used to reduce the effects of other attacks, such as fals
+data injrption attack.
