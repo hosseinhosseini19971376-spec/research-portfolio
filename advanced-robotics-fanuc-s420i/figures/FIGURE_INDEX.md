@@ -1,6 +1,6 @@
 # Figures from the original FANUC S-420i report
 
-The report contains eight embedded images. The repository README includes a compact overview contact sheet assembled from these source images as \`report-figures-overview.jpg\`.
+The report contains eight embedded images. The repository README includes a compact overview assembled from these source images as `report-figures-overview.jpg`.
 
 1. **University emblem** — report cover/header.
 2. **FANUC S-420i specifications** — robot specification sheet and model information.
