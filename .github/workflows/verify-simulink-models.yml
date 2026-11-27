@@ -27,7 +27,7 @@ jobs:
           declare -A expected=(
             ["withoutDOS.slx"]="13557be4eb67170ab639cfc4b9c3bac4fa41a72ff4f903e6c8bb890fd680f12b"
             ["withDOS.slx"]="381e8ab8dbc72b6eb38342ae8e6b8395a380610272d820c970e8a9169fea2a1e"
-            ["RESILIENT.slx"]="145e7a927674edb33b2949ac6e30d0d05c9e4ae9c9a5f095c5d8aba0f49a43db"
+            ["RESILIENT.slx"]="145e7a927674edb33f2949ac6e30d0d05c9e4ae9c9a5f095c5d8aba0f49a43db"
           )
 
           for name in "${!expected[@]}"; do
