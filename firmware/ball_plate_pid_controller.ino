@@ -1,181 +1,228 @@
 /*
- * Two-DOF Ball-and-Plate Balancing Robot
- * Arduino firmware transcribed from the undergraduate thesis report
+ * Design and Implementation of a Two-Degree-of-Freedom Ball-and-Plate Robot
  * Author: Seyedhossein Seyedhosseini
  *
- * Source pages: 48-55 of the thesis PDF.
- * This is a faithful transcription for documentation; it has not been
- * independently compiled or re-tested on the original hardware.
+ * Source: undergraduate thesis, Arduino implementation, pp. 48-54.
+ *
+ * Transcription notes:
+ * - The control structure and numerical parameters follow the thesis.
+ * - Pin 9 is explicitly configured as OUTPUT because the source writes HIGH
+ *   to that pin as a status indicator but does not configure its mode.
+ * - Unused variables and duplicate initialization statements were removed.
+ * - The firmware has not been compiled against the original libraries or
+ *   tested on the original physical prototype in this environment.
+ *
+ * Required libraries:
+ * - PID_v1 (Brett Beauregard Arduino PID Library)
+ * - Adafruit TouchScreen
+ * - Servo (Arduino library)
  */
 
-#include <PID_v1.h>
 #include <stdint.h>
-#include "TouchScreen.h"
+#include <PID_v1.h>
+#include <TouchScreen.h>
 #include <Servo.h>
 
+// Four-wire resistive touchscreen connections.
 #define YP A0
 #define XM A1
 #define YM 3
 #define XP 4
 
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
+// Hardware pins.
+const uint8_t SERVO_X_PIN = 5;
+const uint8_t SERVO_Y_PIN = 6;
+const uint8_t STATUS_PIN  = 9;
 
+// Touchscreen resistance measured between the two same-name pins.
+TouchScreen touchScreen(XP, YP, XM, YM, 300);
+
+Servo servoX;
+Servo servoY;
+
+// Touchscreen raw-to-millimetre conversion factors from the thesis firmware.
+const double X_RAW_TO_MM = 322.0 / 868.0;
+const double Y_RAW_TO_MM = 247.0 / 885.0;
+
+// Desired ball position in millimetres.
+double setpointX = 175.0;
+double setpointY = 144.0;
+
+// Measured ball position and servo commands.
+double inputX = 175.0;
+double inputY = 144.0;
+double outputX = 95.0;
+double outputY = 95.0;
+
+// PID gains reported in the thesis.
+const double KP_X = 0.10;
+const double KI_X = 0.01;
+const double KD_X = 0.06;
+
+const double KP_Y = 0.30;
+const double KI_Y = 0.08;
+const double KD_Y = 0.13;
+
+// Controller and servo configuration.
+const unsigned long PID_SAMPLE_TIME_MS = 50;
+const int SERVO_NEUTRAL_DEG = 95;
+const int SERVO_MIN_DEG = 20;
+const int SERVO_MAX_DEG = 160;
+
+// Ball-position acceptance band and stability threshold.
+const double POSITION_TOLERANCE_MM = 20.0;
+const unsigned long STABLE_COUNT_LIMIT = 125;
+
+// The source firmware uses loop-count thresholds for no-touch handling.
 unsigned int noTouchCount = 0;
-double k = 0;
+unsigned long stableCount = 0;
 
-double Setpoint, Input, Output;     // X axis
-double Setpoint1, Input1, Output1;  // Y axis
+PID pidX(&inputX, &outputX, &setpointX, KP_X, KI_X, KD_X, DIRECT);
+PID pidY(&inputY, &outputY, &setpointY, KP_Y, KI_Y, KD_Y, DIRECT);
 
-Servo servo1; // X axis
-Servo servo2; // Y axis
+/*
+ * This contact-detection condition is retained from the thesis:
+ * X must be nonzero and Y must be outside the 740-751 raw-count band.
+ */
+bool isBallDetected(const TSPoint &point)
+{
+    return (point.x != 0) && ((point.y < 740) || (point.y > 751));
+}
 
-uint16_t homeX = 472;
-uint16_t homeY = 517;
+bool isInsideTargetBand()
+{
+    return (inputX > setpointX - POSITION_TOLERANCE_MM &&
+            inputX < setpointX + POSITION_TOLERANCE_MM &&
+            inputY > setpointY - POSITION_TOLERANCE_MM &&
+            inputY < setpointY + POSITION_TOLERANCE_MM);
+}
 
-float convertX = 322.0 / 868.0;
-float convertY = 247.0 / 885.0;
+bool isOutsideTargetBand()
+{
+    return (inputX < setpointX - POSITION_TOLERANCE_MM ||
+            inputX > setpointX + POSITION_TOLERANCE_MM ||
+            inputY < setpointY - POSITION_TOLERANCE_MM ||
+            inputY > setpointY + POSITION_TOLERANCE_MM);
+}
 
-int Ts = 50;
-unsigned long Stable = 0;
+void attachServos()
+{
+    if (!servoX.attached()) {
+        servoX.attach(SERVO_X_PIN);
+    }
+    if (!servoY.attached()) {
+        servoY.attach(SERVO_Y_PIN);
+    }
+}
 
-float Kp = 0.1;
-float Ki = 0.01;
-float Kd = 0.06;
+void detachServos()
+{
+    if (servoX.attached()) {
+        servoX.detach();
+    }
+    if (servoY.attached()) {
+        servoY.detach();
+    }
+}
 
-float Kp1 = 0.3;
-float Ki1 = 0.08;
-float Kd1 = 0.13;
-
-long cas = 0;
-
-PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
-PID myPID1(&Input1, &Output1, &Setpoint1, Kp1, Ki1, Kd1, DIRECT);
+void commandNeutralPosition()
+{
+    outputX = SERVO_NEUTRAL_DEG;
+    outputY = SERVO_NEUTRAL_DEG;
+    servoX.write(SERVO_NEUTRAL_DEG);
+    servoY.write(SERVO_NEUTRAL_DEG);
+}
 
 void setup()
 {
-    servo1.attach(5);
-    servo2.attach(6);
+    pinMode(STATUS_PIN, OUTPUT);
+    digitalWrite(STATUS_PIN, LOW);
 
-    Output = 95;
-    Output1 = 95;
-
-    servo1.write(Output);
-    servo2.write(Output1);
+    attachServos();
+    commandNeutralPosition();
 
     Serial.begin(115200);
 
-    TSPoint p = ts.getPoint();
+    // The thesis uses the plate centre as the initial position and setpoint.
+    inputX = setpointX;
+    inputY = setpointY;
 
-    Input = 175;
-    Input1 = 144;
+    pidX.SetMode(AUTOMATIC);
+    pidY.SetMode(AUTOMATIC);
 
-    Setpoint = 175;
-    Setpoint1 = 144;
+    pidX.SetOutputLimits(SERVO_MIN_DEG, SERVO_MAX_DEG);
+    pidY.SetOutputLimits(SERVO_MIN_DEG, SERVO_MAX_DEG);
 
-    servo1.attach(5);
-    servo2.attach(6);
-
-    Output = 95;
-    Output1 = 95;
-
-    servo1.write(Output);
-    servo2.write(Output1);
-
-    myPID.SetMode(AUTOMATIC);
-    myPID.SetOutputLimits(20, 160);
-
-    myPID1.SetMode(AUTOMATIC);
-    myPID1.SetOutputLimits(20, 160);
-
-    myPID1.SetSampleTime(Ts);
-    myPID.SetSampleTime(Ts);
+    pidX.SetSampleTime(PID_SAMPLE_TIME_MS);
+    pidY.SetSampleTime(PID_SAMPLE_TIME_MS);
 
     delay(100);
 }
 
 void loop()
 {
-    while (Stable < 125)
-    {
-        TSPoint p = ts.getPoint();
+    // Regulation stage: operate until the stability counter reaches its limit.
+    while (stableCount < STABLE_COUNT_LIMIT) {
+        TSPoint contactPoint = touchScreen.getPoint();
 
-        if ((p.x != 0 && (p.y < 740 || p.y > 751)))
-        {
+        if (isBallDetected(contactPoint)) {
             noTouchCount = 0;
+            attachServos();
 
-            servo1.attach(5);
-            servo2.attach(6);
+            // A second touchscreen read is retained as in the thesis source.
+            TSPoint measuredPoint = touchScreen.getPoint();
 
-            TSPoint p = ts.getPoint();
+            inputX = measuredPoint.x * X_RAW_TO_MM;
+            inputY = measuredPoint.y * Y_RAW_TO_MM;
 
-            Input = (p.x * convertX);
-            Input1 = (p.y * convertY);
-
-            if ((Input > Setpoint - 20 && Input < Setpoint + 20 &&
-                 Input1 > Setpoint1 - 20 && Input1 < Setpoint1 + 20))
-            {
-                Stable = Stable + 1;
-                digitalWrite(9, HIGH);
-            }
-            else
-            {
+            if (isInsideTargetBand()) {
+                stableCount++;
+                digitalWrite(STATUS_PIN, HIGH);
             }
 
-            myPID.Compute();
-            myPID1.Compute();
+            pidX.Compute();
+            pidY.Compute();
 
-            servo1.write(Output);
-            servo2.write(Output1);
+            servoX.write((int)outputX);
+            servoY.write((int)outputY);
         }
-        else
-        {
+        else {
             noTouchCount++;
 
-            if (noTouchCount == 75)
-            {
+            if (noTouchCount == 75) {
+                // The extra increment is retained from the thesis implementation.
                 noTouchCount++;
-
-                Output = 95;
-                Output1 = 95;
-
-                servo1.write(Output);
-                servo2.write(Output1);
+                commandNeutralPosition();
             }
 
-            if (noTouchCount == 150)
-            {
-                servo1.detach();
-                servo2.detach();
+            if (noTouchCount == 150) {
+                detachServos();
             }
 
-            Serial.println(Setpoint);
+            // Telemetry format retained from the thesis implementation.
+            Serial.print(setpointX);
             Serial.print(",");
-            Serial.print(Setpoint1);
+            Serial.print(setpointY);
             Serial.print(",");
-            Serial.print(Input);
+            Serial.print(inputX);
             Serial.print(",");
-            Serial.print(Input1);
+            Serial.print(inputY);
             Serial.println(noTouchCount);
         }
     }
 
-    servo1.detach();
-    servo2.detach();
+    detachServos();
 
-    while (Stable == 125)
-    {
-        TSPoint p = ts.getPoint();
+    // Monitoring stage: re-enable regulation if the ball leaves the target band.
+    while (stableCount == STABLE_COUNT_LIMIT) {
+        TSPoint measuredPoint = touchScreen.getPoint();
 
-        Input = (p.x * convertX);
-        Input1 = (p.y * convertY);
+        inputX = measuredPoint.x * X_RAW_TO_MM;
+        inputY = measuredPoint.y * Y_RAW_TO_MM;
 
-        if (Input < Setpoint - 20 || Input > Setpoint + 20 ||
-            Input1 > Setpoint1 + 20 || Input1 < Setpoint1 - 20)
-        {
-            servo1.attach(5);
-            servo2.attach(6);
-
-            Stable = 0;
+        if (isOutsideTargetBand()) {
+            attachServos();
+            stableCount = 0;
         }
     }
 }
