@@ -27,6 +27,8 @@ The Simulink model files are intended to be stored in the adjacent **models/** d
 
 ## Technical approach
 
+The three original SLX archives were inspected directly. The extraction utility identifies **15 MATLAB Function blocks in total (five per model)** and writes their scripts to individual `.m` files for independent review. The extracted code is documented in [MATLAB Function Blocks](docs/MATLAB_FUNCTION_BLOCKS.md).
+
 The MATLAB Function blocks embed the following agent model:
 
 \[
