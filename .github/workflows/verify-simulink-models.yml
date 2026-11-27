@@ -30,16 +30,16 @@ jobs:
             ["RESILIENT.slx"]="145e7a927674edb33b2949ac6e30d0d05c9e4ae9c9a5f095c5d8aba0f49a43db"
           )
 
-          for name in "\${!expected[@]}"; do
+          for name in "${!expected[@]}"; do
             file="$model_dir/$name"
             if [[ ! -f "$file" ]]; then
               echo "::error::Missing required model: $file"
               exit 1
             fi
             actual="$(sha256sum "$file" | awk '{print $1}')"
-            if [[ "$actual" != "\${expected[$name]}" ]]; then
+            if [[ "$actual" != "${expected[$name]}" ]]; then
               echo "::error::SHA-256 mismatch for $name"
-              echo "Expected: \${expected[$name]}"
+              echo "Expected: ${expected[$name]}"
               echo "Actual:   $actual"
               exit 1
             fi
