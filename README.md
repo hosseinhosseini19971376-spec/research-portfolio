@@ -2,11 +2,11 @@
 
 ## Research Portfolio · Robotics, Control Systems & Rehabilitation Engineering
 
-This portfolio documents academic and engineering work in control theory, robotics, rehabilitation systems, embedded implementation, and data-driven modeling. It currently features a detailed end-to-end ball-and-plate balancing robot project.
+This portfolio documents academic and engineering work in control theory, robotics, rehabilitation systems, embedded implementation, and data-driven modeling. Projects include a ball-and-plate balancing robot and a six-agent consensus simulation study.
 
 The featured project is documented with its engineering objective, system architecture, modeling approach, implementation details, experimental workflow, and reproducibility limitations. Only files that are available and reviewed are presented as repository artifacts.
 
-## Featured project
+## Featured projects
 
 ### Design and Implementation of a Two-Degree-of-Freedom Ball-and-Plate Balancing Robot
 
@@ -20,6 +20,12 @@ An undergraduate end-to-end engineering project involving mechanical constructio
 - [View the Arduino PID firmware](firmware/ball_plate_pid_controller.ino)
 - [Read firmware setup and verification notes](firmware/README.md)
 
+### Resilient consensus under communication interruptions
+
+Three Simulink models compare nominal communication, interrupted links, and a resilient control design.
+
+[Explore the models and reproducibility notes](resilient-consensus/)
+
 ## Repository structure
 
 - **README.md** — portfolio landing page.
@@ -29,7 +35,7 @@ An undergraduate end-to-end engineering project involving mechanical constructio
 - **assets/prototype.jpg** — photograph of the physical prototype.
 - **assets/mechanical-schematic.jpg** — single-axis mechanical principle diagram.
 
-**Data availability:** the raw measurement spreadsheets and supplied Simulink example files reviewed during project preparation are not currently included in this repository. The case study describes their scope and the limitations of the available data without presenting them as downloadable files.
+**Ball-and-plate data availability:** the raw measurement spreadsheets and supplied Simulink example files reviewed during project preparation are not currently included in this repository. The case study describes their scope and the limitations of the available data without presenting them as downloadable files.
 
 ## Research interests
 
