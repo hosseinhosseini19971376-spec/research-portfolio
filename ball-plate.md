@@ -138,6 +138,81 @@ The report contains Simulink screenshots illustrating this procedure. The origin
 - **Simulink model:** workflow and screenshots are documented, but the original editable .slx file is not available in the report.
 - **Experimental data:** the report describes recorded input/output data and an Excel workflow, but the underlying raw data file is not embedded as a separate dataset.
 
+
+## 3.1. Prototype photographs and hardware references
+
+The report and subsequently supplied images document the physical prototype, its wooden base and moving plate, the central spherical joint, the servo-driven linkages, the resistive touchscreen, and the Arduino-based electronics. The photographs are intended to be used as the primary visual evidence of the built system. Product/catalogue illustrations are treated as component references, not as photographs of the prototype.
+
+Hardware specifications stated in the thesis:
+- **Controller:** Arduino Mega 2560 (ATmega2560).
+- **Actuators:** two MG946 metal-gear servo motors.
+- **Servo supply:** 6 V supplied from batteries; the report describes two battery holders and eight 1.5 V cells.
+- **Position sensor:** four-wire resistive touchscreen.
+- **Mechanical support:** central spherical joint and two servo/linkage assemblies.
+- **Controller feedback:** ball position measured along X and Y using the touchscreen.
+
+The thesis describes the MG946 servo as operating from 4.8–6.6 V, with 180-degree travel and a stated maximum torque of 13 kg·cm at 6.6 V (10.5 kg·cm at 4.8 V). These are manufacturer/report specifications, not measured torque values from the experiment.
+
+## 5.2. Firmware source and implementation notes
+
+The cleaned, thesis-based two-axis Arduino sketch is available at [firmware/ball_plate_pid_controller.ino](firmware/ball_plate_pid_controller.ino).
+
+The sketch retains the reported control architecture and numerical values while making the source easier to read:
+- PID_v1, Adafruit TouchScreen, and Servo libraries.
+- Touchscreen pins YP=A0, XM=A1, YM=3, XP=4.
+- Servo signal pins 5 and 6.
+- Serial baud rate 115200.
+- X and Y setpoints 175 mm and 144 mm as labelled in the thesis.
+- X gains: Kp=0.10, Ki=0.01, Kd=0.06.
+- Y gains: Kp=0.30, Ki=0.08, Kd=0.13.
+- PID sample time: 50 ms.
+- Servo output limits: 20–160 degrees; nominal neutral command: 95 degrees.
+- Ball-position tolerance band: ±20 converted coordinate units.
+- Stability counter threshold: 125 in-band detections.
+- No-touch handling: neutral servo command after the source counter reaches 75, and servo detach at 150.
+
+**Important:** the original report code writes HIGH to digital pin 9 without explicitly configuring it as an output. The cleaned sketch configures pin 9 as OUTPUT to make that status-indicator operation explicit. This is a small implementation clarification, not a claim that the original source contained that line. The firmware has not been compiled with the exact library versions or tested on the original prototype in this environment.
+
+## 6.2. Supplied Simulink models: scope and limitations
+
+Three Simulink files were supplied and inspected at the SLX package/XML level:
+
+- `untitled4.slx.original`: a minimal servo-command example with a Constant block, Slider Gain, and Arduino Standard Servo Write. The servo block is configured for digital pin 9; the slider gain is 0 with a 0–180 range.
+- `untitled4.slx`: a similar servo-command example, with a Scope and Slider Gain value 95.4, again connected to an Arduino Standard Servo Write block on pin 9.
+- `untitledrfrf.slx`: a serial-receive/monitoring model with Serial Configuration and Serial Receive blocks configured for COM4 at 9600 baud, conversion/display blocks, and a Real-Time Pacer. It appears to be a serial monitoring/helper model, not a complete two-axis plant or controller model.
+
+These files are supporting implementation examples. They should not be described as a complete Simulink model of the two-axis ball-and-plate dynamics. The report's Parameter Estimation procedure is documented separately; a fully connected, editable plant model and its fitted parameter values are not evidenced by these three supplied files alone.
+
+## 7.1. Experimental data supplied for this portfolio
+
+The following spreadsheets were supplied:
+- `x.xlsx`: 3,486 raw touchscreen X-channel samples.
+- `y.xlsx`: 3,486 raw touchscreen Y-channel samples (stored in the second worksheet column).
+- `time.xlsx`: 3,486 time values, spanning 0.101–10.001 s.
+- `sevo1.xlsx` and `sevo2.xlsx`: 21 servo command values per channel, without timestamps.
+
+The time vector is strictly increasing. Its median sampling interval is approximately 0.003 s (about 3 ms); the observed intervals vary between 1 and 5 ms. This is the sampling interval of the supplied recorded data and should not be confused with the 50 ms PID sample time configured in the Arduino firmware.
+
+Using the exact scale factors in the thesis firmware (322/868 for X and 247/885 for Y), the raw touchscreen values can be converted to nominal millimetre coordinates. The X channel contains 115 zero readings; these are treated as invalid/no-contact samples for visualization, while the original raw values should be retained in the source dataset. The report's contact test also includes a Y raw-count exclusion band from 740 to 751; the supplied Y samples do not fall in that band.
+
+The 21 servo command samples in each servo spreadsheet have no corresponding time column. They are therefore plotted against sample index only and are not aligned to the 3,486-point position/time record. They may represent a separate input sequence used in the Parameter Estimation workflow, as described in the thesis, but the available files do not establish a one-to-one time alignment.
+
+### Data interpretation
+
+The recorded X–Y trajectory is a measured sensor trace, not by itself proof of closed-loop setpoint regulation. The current files do not include a synchronized servo-input time series for the 3,486 position samples, a separate disturbance marker, or a validated set of tracking-error performance metrics. Accordingly, no RMSE, settling time, overshoot, or disturbance-rejection score is claimed.
+
+## Reproducibility and artifact status
+
+| Artifact | Status |
+|---|---|
+| Thesis-based two-axis Arduino sketch | Cleaned and documented; not hardware-verified here |
+| Ball-position X/Y/time spreadsheets | Inspected; coordinate scaling documented |
+| Servo input spreadsheets | Inspected; 21 samples per servo, no timestamps |
+| Simulink servo example files | Inspected; supporting examples only |
+| Simulink serial monitor file | Inspected; helper/monitoring model |
+| Full two-axis Simulink plant/controller | Not established by supplied SLX files |
+| Synchronized raw actuator and position dataset | Not available in supplied spreadsheets |
+
 ## 6. MATLAB/Simulink integration and model-based design
 
 A second part of the project investigates a model-based workflow using MATLAB R2018b and Simulink. The thesis documents:
