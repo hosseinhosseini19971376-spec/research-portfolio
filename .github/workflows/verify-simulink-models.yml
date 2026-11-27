@@ -1,0 +1,47 @@
+name: Verify original Simulink model files
+
+on:
+  pull_request:
+    paths:
+      - "projects/resilient-consensus-dos/models/*.slx"
+      - ".github/workflows/verify-simulink-models.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "projects/resilient-consensus-dos/models/*.slx"
+
+jobs:
+  verify-model-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify original model files and SHA-256 hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          model_dir="projects/resilient-consensus-dos/models"
+
+          declare -A expected=(
+            ["withoutDOS.slx"]="13557be4eb67170ab639cfc4b9c3bac4fa41a72ff4f903e6c8bb890fd680f12b"
+            ["withDOS.slx"]="381e8ab8dbc72b6eb38342ae8e6b8395a380610272d820c970e8a9169fea2a1e"
+            ["RESILIENT.slx"]="145e7a927674edb33b2949ac6e30d0d05c9e4ae9c9a5f095c5d8aba0f49a43db"
+          )
+
+          for name in "\${!expected[@]}"; do
+            file="$model_dir/$name"
+            if [[ ! -f "$file" ]]; then
+              echo "::error::Missing required model: $file"
+              exit 1
+            fi
+            actual="$(sha256sum "$file" | awk '{print $1}')"
+            if [[ "$actual" != "\${expected[$name]}" ]]; then
+              echo "::error::SHA-256 mismatch for $name"
+              echo "Expected: \${expected[$name]}"
+              echo "Actual:   $actual"
+              exit 1
+            fi
+            echo "Verified $name ($actual)"
+          done
