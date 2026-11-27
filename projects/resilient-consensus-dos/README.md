@@ -75,7 +75,23 @@ The models' stored stop times are 30 s (withoutDOS), 5 s (withDOS), and 10 s (RE
 
 The models have been inspected at the SLX package/XML level, but they have **not** been executed in MATLAB/Simulink as part of this portfolio preparation. No new plots, numerical comparisons, or performance claims are presented.
 
+## Model architecture
+
+```mermaid
+flowchart LR
+  X[Agent states] --> O[Distributed observer]
+  O --> E[State estimates]
+  E --> C[Distributed feedback controller]
+  C --> P[Multi-agent plant]
+  P --> X
+  D[DoS signal] --> L[Observer-side topology L(DOS)]
+  L --> O
+```
+
+In the supplied attack-enabled models, the observer-side Laplacian depends on the DOS signal. The active plant/controller derivative retains the nominal fixed Laplacian; see the implementation notes before interpreting this as a simultaneous controller-and-observer attack experiment.
+
 Read:
+- [Extracted MATLAB Function block scripts](docs/MATLAB_FUNCTION_BLOCKS.md)
 - [Model Guide](docs/MODEL_GUIDE.md)
 - [Implementation Notes](docs/IMPLEMENTATION_NOTES.md)
 - [Reproducibility Notes](docs/REPRODUCIBILITY.md)
