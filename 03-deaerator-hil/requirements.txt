@@ -1,0 +1,6 @@
+customtkinter
+numpy
+scipy
+pyXSteam
+matplotlib
+pyserial
