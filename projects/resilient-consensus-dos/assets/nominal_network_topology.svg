@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="620" viewBox="0 0 1000 620" role="img" aria-labelledby="title desc">
+<title id="title">Nominal six-agent communication topology</title>
+<desc id="desc">Directed leader-follower graph reconstructed from the nominal six-by-six Laplacian embedded in the supplied Simulink models. Node 1 is the leader; nodes 2 through 6 are followers.</desc>
+<defs>
+  <marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,8 L10,4 z" fill="#53718a"/></marker>
+  <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#102a43" flood-opacity=".12"/></filter>
+</defs>
+<rect width="1000" height="620" rx="28" fill="#f7f9fc"/>
+<text x="60" y="66" font-family="Inter,Arial,sans-serif" font-size="30" font-weight="700" fill="#102a43">Nominal communication topology</text>
+<text x="60" y="101" font-family="Inter,Arial,sans-serif" font-size="16" fill="#5b7083">Six-agent leader–follower network · reconstructed from the embedded Laplacian matrix</text>
+<g fill="none" stroke="#53718a" stroke-width="3.5" marker-end="url(#arrow)" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M160 264 C210 224 260 170 309 145"/>
+  <path d="M160 316 C210 356 260 410 309 435"/>
+  <path d="M350 175 C315 245 315 355 350 405"/>
+  <path d="M391 130 C455 112 520 112 579 125"/>
+  <path d="M391 450 C455 468 520 468 579 455"/>
+  <path d="M391 420 C520 378 670 320 790 285"/>
+  <path d="M621 151 C690 177 753 223 797 258"/>
+  <path d="M621 429 C690 403 753 357 797 322"/>
+  <path d="M790 242 C760 53 478 20 373 83"/>
+</g>
+<g filter="url(#shadow)">
+  <circle cx="120" cy="290" r="48" fill="#f4a259" stroke="#d57a2b" stroke-width="3"/>
+  <circle cx="350" cy="130" r="43" fill="#247ba0" stroke="#17617f" stroke-width="3"/>
+  <circle cx="350" cy="450" r="43" fill="#247ba0" stroke="#17617f" stroke-width="3"/>
+  <circle cx="620" cy="130" r="43" fill="#247ba0" stroke="#17617f" stroke-width="3"/>
+  <circle cx="620" cy="450" r="43" fill="#247ba0" stroke="#17617f" stroke-width="3"/>
+  <circle cx="840" cy="290" r="43" fill="#247ba0" stroke="#17617f" stroke-width="3"/>
+</g>
+<g font-family="Inter,Arial,sans-serif" text-anchor="middle" fill="#ffffff">
+  <text x="120" y="285" font-size="26" font-weight="700">1</text><text x="120" y="309" font-size="13" font-weight="600">LEADER</text>
+  <text x="350" y="138" font-size="27" font-weight="700">2</text>
+  <text x="350" y="458" font-size="27" font-weight="700">3</text>
+  <text x="620" y="138" font-size="27" font-weight="700">4</text>
+  <text x="620" y="458" font-size="27" font-weight="700">5</text>
+  <text x="840" y="298" font-size="27" font-weight="700">6</text>
+</g>
+<g font-family="Inter,Arial,sans-serif" fill="#425b70" font-size="15" font-weight="600">
+  <text x="350" y="196" text-anchor="middle">Follower 2</text>
+  <text x="350" y="516" text-anchor="middle">Follower 3</text>
+  <text x="620" y="196" text-anchor="middle">Follower 4</text>
+  <text x="620" y="516" text-anchor="middle">Follower 5</text>
+  <text x="840" y="356" text-anchor="middle">Follower 6</text>
+</g>
+<g font-family="Inter,Arial,sans-serif" font-size="14" fill="#5b7083">
+  <text x="60" y="566">Arrow convention: an off-diagonal entry Lᵢⱼ &lt; 0 represents information flow j → i.</text>
+  <text x="60" y="590">This is the nominal graph; the supplied DoS variants modify selected observer-side Laplacian entries.</text>
+</g>
+</svg>
