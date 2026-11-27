@@ -1,0 +1,35 @@
+{
+  "source_document": "99123161.docx",
+  "title": "پروژه درس رباتیک پیشرفته",
+  "institution": "دانشگاه صنعتی امیرکبیر (پلی تکنیک تهران)، دانشکده برق",
+  "robot": "FANUC S-420i",
+  "degrees_of_freedom": 6,
+  "date": "اردیبهشت 1401",
+  "source_code_topics": [
+    "Forward kinematics",
+    "Peter Corke Robotics Toolbox model",
+    "Joint-grid singularity scan",
+    "Geometric and differential Jacobian",
+    "Lagrangian dynamics",
+    "Recursive Newton-Euler dynamics",
+    "Peter Corke RNE call"
+  ],
+  "matlab_files": [
+    "matlab/fanuc_s420i_dh.m",
+    "matlab/dh_transform.m",
+    "matlab/01_forward_kinematics.m",
+    "matlab/02_peter_corke_robot_model.m",
+    "matlab/03_singularity_scan.m",
+    "matlab/04_jacobian_comparison.m",
+    "matlab/05_lagrange_dynamics.m",
+    "matlab/06_newton_euler_dynamics.m",
+    "matlab/07_peter_corke_rne_template.m"
+  ],
+  "source_code_extract": "source-extracted/code_blocks_from_report.txt",
+  "known_gaps": [
+    "Complete workspace point-cloud generation code is not present.",
+    "No executable Simulink/Simscape model or video is embedded.",
+    "Numeric masses, COM parameters and full inertia tensors are not supplied.",
+    "Joint-type ambiguity exists for joints 2 and 3."
+  ]
+}
