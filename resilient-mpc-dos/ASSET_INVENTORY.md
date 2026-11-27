@@ -1,6 +1,6 @@
 # Original simulation asset inventory
 
-The original uploaded archive contains 23 ZIP entries (including directory entries) and the following project assets.
+The original uploaded archive is committed at source/original-simulation-bundle.zip. It contains the following project assets.
 
 ## Simulink models — 11
 
@@ -32,7 +32,7 @@ The original uploaded archive contains 23 ZIP entries (including directory entri
 - Manipulators: x.pdf, xo.pdf
 
 ## Report
-- mpc_project_Report.pdf — 8 pages.
+- The eight-page report text extraction is available at report/report-extracted.txt.
 
 ## Inspection findings
 
