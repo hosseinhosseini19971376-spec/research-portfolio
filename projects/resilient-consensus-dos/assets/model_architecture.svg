@@ -34,7 +34,7 @@
   <path d="M930 355 V440 H172 V365"/>
 </g>
 <g font-family="Inter,Arial,sans-serif" font-size="15" fill="#425b70" font-weight="600">
-  <text x="355" y="258" text-anchor="middle">Outputs y = CX</text>
+  <text x="355" y="258" text-anchor="middle">State / estimation-error signals</text>
   <text x="740" y="258" text-anchor="middle">Estimated states X̂</text>
   <text x="545" y="468" text-anchor="middle">Control input u returns to the agent plant</text>
 </g>
