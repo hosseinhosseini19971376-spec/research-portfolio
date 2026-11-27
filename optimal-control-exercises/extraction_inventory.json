@@ -1,0 +1,21 @@
+{
+  "source_file": "99123183_99123161docx.docx",
+  "source_title": "تمرینهای کنترل بهینه",
+  "pages": 57,
+  "matlab_scripts": [
+    "01_teleoperation_dynamic_programming.m",
+    "02_hjb_riccati_lqr.m",
+    "03_hamiltonian_lqr.m",
+    "04_hamiltonian_lqt_tracking.m",
+    "05_pontryagin_lqr_input_constraints.m"
+  ],
+  "simulink_function": [
+    "euler_constrained_fcn.m"
+  ],
+  "source_media_count": 15,
+  "converted_figure_count": 15,
+  "syntax_normalizations": [
+    "Two source else(condition) lines in the Pontryagin script were normalized to plain else."
+  ],
+  "matlab_execution_verified": false
+}
