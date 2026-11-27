@@ -84,6 +84,60 @@ The Arduino Mega 2560 executes two PID controllers, one for each axis. The firmw
 
 The firmware sets the servo command limits to 20–160 degrees and uses 95 degrees as the nominal neutral command. The thesis describes the implemented controller as maintaining the ball on the plate to a satisfactory qualitative level. No numerical tracking metrics are claimed here beyond those reported in the source.
 
+
+## 3.1. Mechanical prototype documentation
+
+The thesis includes photographs of the physical assembly and the resistive touchscreen test. The mechanical design uses a central spherical joint and two servo-driven linkages arranged to tilt the plate about the two controlled axes. The touchscreen is mounted on the moving plate and provides the ball-position feedback.
+
+## 5.1. Firmware source
+
+The Arduino sketch transcribed from the thesis is available here:
+
+- [Arduino PID controller firmware](firmware/ball_plate_pid_controller.ino)
+
+The sketch uses the PID_v1, Adafruit TouchScreen, and Servo libraries. The code transcription preserves the constants and control flow shown in the thesis (including the axis setpoints, conversion factors, sample time, output limits, and no-touch handling). It has not yet been independently compiled or validated on the original hardware. The library versions and exact board wiring should be confirmed before attempting to reproduce the experiment.
+
+### Key implementation parameters
+
+| Parameter | Value in thesis firmware |
+|---|---:|
+| Arduino board | Mega 2560 |
+| X servo pin | 5 |
+| Y servo pin | 6 |
+| Touchscreen pins | YP=A0, XM=A1, YM=3, XP=4 |
+| Serial baud rate | 115200 |
+| PID sample time | 50 ms |
+| X setpoint | 175 (converted touchscreen coordinate) |
+| Y setpoint | 144 (converted touchscreen coordinate) |
+| Servo neutral command | 95° |
+| Servo command limits | 20°–160° |
+| Stability tolerance | ±20 coordinate units on each axis |
+| Stability counter threshold | 125 consecutive in-band samples |
+
+The sketch includes variables for touchscreen centre coordinates (homeX, homeY) and a stability/status output on digital pin 9, as shown in the report. The source does not show a corresponding pinMode(9, OUTPUT) configuration; this has not been silently added to the transcription.
+
+## 6.1. Parameter-estimation workflow documented in the thesis
+
+The model-based-design chapter describes an experimental identification workflow:
+
+1. Command the two servo motors through the Arduino-based setup.
+2. Record the servo input values, measured ball-position outputs, and timestamps.
+3. Export the recorded data to Excel and import it into MATLAB as matrices.
+4. Build the corresponding Simulink signal and transfer-function model.
+5. Select the model parameters in the Parameter Estimation environment.
+6. Associate the measured experimental output and time vector with the model output.
+7. Run parameter estimation to fit the model response to the experimental data.
+
+The report contains Simulink screenshots illustrating this procedure. The original .slx model and the raw Excel/measurement dataset are not embedded as editable source files in the report, so they cannot be reconstructed exactly from screenshots alone.
+
+## Reproducibility status
+
+- **Firmware:** transcribed into this repository from the report; compilation and hardware verification remain outstanding.
+- **Mechanical assembly:** documented by photographs and construction notes in the report.
+- **Mathematical model:** derivation and assumptions are documented in the thesis; equations should be checked against the typeset source before numerical reuse.
+- **Simulink model:** workflow and screenshots are documented, but the original editable .slx file is not available in the report.
+- **Experimental data:** the report describes recorded input/output data and an Excel workflow, but the underlying raw data file is not embedded as a separate dataset.
+
 ## 6. MATLAB/Simulink integration and model-based design
 
 A second part of the project investigates a model-based workflow using MATLAB R2018b and Simulink. The thesis documents:
