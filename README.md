@@ -1,18 +1,35 @@
 # Seyedhossein Seyedhosseini
+
 ## Research Portfolio · Robotics, Control Systems & Rehabilitation Engineering
 
-This repository presents selected academic and engineering projects spanning control theory, robotics, rehabilitation systems, embedded implementation, and data-driven modeling.
+This repository presents selected academic and engineering work in control theory, robotics, rehabilitation systems, embedded implementation, and data-driven modeling.
 
-The portfolio is organized around technically documented projects. Each project page describes the engineering problem, system architecture, mathematical or algorithmic approach, implementation, experimental workflow, and reported outcomes. Source code, datasets, and additional media will be added when they are available and ready for public release.
+Projects are documented with their engineering objectives, system architecture, modeling approach, implementation details, experimental workflow, and reproducibility limitations. Only files that are available and reviewed are presented as repository artifacts.
 
-## Featured projects
+## Featured project
 
-### 1. Design and Implementation of a Two-Degree-of-Freedom Ball-and-Plate Balancing Robot
-An undergraduate end-to-end engineering project involving mechanical construction, Euler–Lagrange modeling, resistive-touch position feedback, two-axis Arduino PID control, MATLAB/Simulink integration, and experimental parameter estimation.
+### Design and Implementation of a Two-Degree-of-Freedom Ball-and-Plate Balancing Robot
+
+![Physical ball-and-plate prototype](assets/prototype.jpg)
+
+An undergraduate end-to-end engineering project involving mechanical construction, Euler–Lagrange modeling, resistive-touch position feedback, two-axis Arduino PID control, and MATLAB/Simulink-based modeling and parameter-estimation workflows.
 
 **Technologies:** Arduino Mega 2560 · C/C++ · MATLAB R2018b · Simulink · PID Control
 
-[Read the project case study](ball-plate.md) · [View two-axis Arduino PID firmware](firmware/ball_plate_pid_controller.ino)
+- [Read the project case study](ball-plate.md)
+- [View the Arduino PID firmware](firmware/ball_plate_pid_controller.ino)
+- [Read firmware setup and verification notes](firmware/README.md)
+
+## Repository structure
+
+- **README.md** — portfolio landing page.
+- **ball-plate.md** — project case study, technical details, and reproducibility status.
+- **firmware/ball_plate_pid_controller.ino** — thesis-based Arduino firmware transcription.
+- **firmware/README.md** — firmware dependencies, pin mapping, and verification notes.
+- **assets/prototype.jpg** — photograph of the physical prototype.
+- **assets/mechanical-schematic.jpg** — single-axis mechanical principle diagram.
+
+**Data availability:** the raw measurement spreadsheets and supplied Simulink example files reviewed during project preparation are not currently included in this repository. The case study describes their scope and the limitations of the available data without presenting them as downloadable files.
 
 ## Research interests
 
